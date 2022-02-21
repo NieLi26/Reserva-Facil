@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="from group">
+                <label>Categorias: </label>
+                {{ form.categories }}
+            </div>
+            <div class="from group">
+                <label>Productos: </label>
+                {{ form.products }}
+            </div>
+        </div>
+    </div>
+</form>
+<script type="application/javascript">
+    $(function () {
+        //se puede llamar atraves de atributo name o id
+        $('select[name="categories"]').on('change', function () {
+            let id = $(this).val(); //con "val" obtengo el id
+            let select_products = $('select[name="products"]');
+            let options = "<option value=''>---------</option>"
+            if (id === "") {
+                select_products.html(options);
+                return false;
+            }
+            $.ajax({
+                    // url: "{% url 'erp:region_create' %}",
+                    url: window.location.pathname,
+                    type: "POST",
+                    data: {
+                        "action": "search_product_id",
+                        "id": id
+                    },
+                    dataType: "json",
+                    // processData: false, //no las usa pq no envia archivos
+                    // contentType: false,
+                })
+                .done(function (data) {
+                    if (!data.hasOwnProperty("error")) {
+                        $.each(data, function (key, value) {
+                            options += "<option value='+value.id+'>" + value.name +
+                                "</option>"
+                        })
+                        return false;
+                    }
+                    message_error(data.error);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ": " + errorThrown);
+                    // alert("error");
+                })
+                .always(function (data) {
+                    select_products.html(options);
+                });
+        })
+    });
+</script>
+{% endblock %}

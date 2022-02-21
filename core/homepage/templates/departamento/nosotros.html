@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %} - Principal {% endblock %}
+
+{% block contenido %}
+
+<!--Barra divisora-->
+<div class="b-example-divider"></div>
+
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://i.ytimg.com/vi/-2wJ0-qQZIk/maxresdefault.jpg" class="d-block w-100" width="120" height="500" alt="carrusel3">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Pucón</h5>
+        <p>Cercano a los lagos más lindos del país.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://p4.wallpaperbetter.com/wallpaper/69/955/609/landscape-photography-nature-sunset-wallpaper-preview.jpg" class="d-block w-100" width="120" height="500" alt="carrusel1">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Viña del mar</h5>
+        <p>Ciudad costera con hartos jardines, playas y edificios altos.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.capital.cl/wp-content/uploads/2019/02/LASERENA.gif" class="d-block w-100" width="120" height="500" alt="carrusel2">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>La Serena</h5>
+        <p>Tranquilidad en las playas, observatorios astronómicos y turísticos.</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+<!--Barra divisora-->
+<div class="b-example-divider"></div>
+
+<!--Contenido de información acerca de la empresa-->
+<div class="container px-4 py-5" id="featured-3">
+  <h2 class="pb-2 border-bottom">Nosotros</h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="feature col">
+      <div style="background-color: blueviolet;"class="feature-icon bg-gradient">
+        <i class="far fa-building"></i>
+      </div>
+      <h2>¿Qué es Easy Renting?</h2>
+      <p>Easy Renting es un proyecto de la empresa <strong>"Turismo Real"</strong> 
+        el cual busca facilitar a los usuarios de esta empresa el arriendo online de 
+        sus variados departamentos a lo largo de todo Chile.</p>
+      <a style="color: blue;" href="#" class="icon-link">
+        Leer más...
+        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+      </a>
+    </div>
+    <div class="feature col">
+      <div style="background-color: blueviolet;"class="feature-icon bg-gradient">
+        <i class="far fa-thumbs-up"></i>
+      </div>
+      <h2>Experiencia</h2>
+      <p>Turismo real, lleva más de 10 años trabajando en arriendos departamentales en zonas 
+        turíticas como La Serena, Puerto Varas, Villarrica, entre muchos otros destinos 
+        de este hermoso país llamado <strong>Chile.</strong></p>
+      <a style="color: blue;" href="#" class="icon-link">
+        Leer más...
+        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+      </a>
+    </div>
+    <div class="feature col">
+      <div style="background-color: blueviolet;"class="feature-icon bg-gradient">
+        <i class="fas fa-award"></i>
+      </div>
+      <h2>Objetivo</h2>
+      <p>El objetivo de la empresa es generar la mejor experiencia a sus <strong>clientes.</strong> Conforme
+         pasa el tiempo lo que se busca es mejorar tanto a nivel físico como a nivel virtual.</p>
+      <a style="color: blue;" href="#" class="icon-link">
+        Leer más...
+        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,326 @@
+<!--Plantilla base del proyecto-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% block extrahead %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--Titulo-->
+  <title>Reserva Fácil {% block titulo %} {% endblock %}</title>
+  <!--Logo de la página-->
+  <link rel="shortcut icon" href="{% static 'img/llave.png' %}" type="image/x-icon">
+
+  <!--Hojas de estilos-->
+  <link rel="stylesheet" href="{% static '/css/estilos.css' %}">
+  <link rel="stylesheet" href="{% static '/css/features.css' %}">
+
+  <!-- Fontawesome para iconos -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
+  <!-- Script GSAP-->
+  <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/gsap-latest-beta.min.js"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MotionPathPlugin.min.js"></script>
+
+  <!--Sweet Alert-->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  {% endblock %}
+</head>
+
+<body>
+  <!--Contenido encabezado-->
+  {% block header %}
+  <style>
+    a {
+      color: white;
+    }
+    a:hover {
+      color: rgb(226, 43, 217);
+      text-decoration: underline;
+    }
+  </style>
+  
+  <header> 
+    <div class="row text-light p-2" style="background-color: black;">
+      <div class="col-lg-12 col-sm-12 pt-2 text-center"> 
+        <div class="navbar-brand px-2" style="font-size: 30px;">
+          <img src="{{ configuracion.logo.url }}" width="40" height="40" class="d-inline-block align-top" alt=""> {{configuracion.titulo}}
+        </div>
+      </div>
+    </div>
+    <div class="row text-light p-2 justify-content-center" style="background-color: black;">
+
+      <div class="col-lg-6 col-sm-12 pt-2 text-center">
+        <nav class="navbar navbar-expand-lg">
+          <button class="navbar-toggler pt-3" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand px-2" href="#"><i class="fas fa-bars navbar-toggler-icon"></i> </a>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown" >
+            <a class="navbar-brand active px-2 circle" href="{% url 'inicio' %}"><i class="fal fa-building px-2"></i>Hostales</a>
+            <a class="navbar-brand px-2 circle" href="#"><i class="fal fa-glass-cheers px-2"></i>Servicios</a>
+            <a class="navbar-brand px-2 circle" href="{% url 'nosotros' %}"><i class="fal fa-users-crown px-2"></i>Nosotros</a>
+            <a class="navbar-brand px-2 circle" href="#"><i class="fal fa-address-card px-2"></i>Contacto</a>
+            <div class="dropdown" >
+              <button class="btn btn-default dropdown-toggle text-light" type="button" id="menu1" data-toggle="dropdown">{{request.user.username}}
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu bg-dark p-2" role="menu" aria-labelledby="menu1">
+                <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="#"><i class="fas fa-portrait px-2"></i>Cuenta</a>
+                <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="#"><i class="fas fa-lock px-2"></i>Contraseña</a>
+                {% if request.user.is_authenticated %}
+                <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="#" onclick="cerrar()"><i class="fas fa-sign-out-alt px-2"></i>Cerrar sesión</a>
+                {% else %}
+                <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="{% url 'login' %}" ><i class="fas fa-sign-in-alt px-2"></i>Iniciar sesión</a>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!--Animación header-->
+    <script>
+      let tween = gsap.from('.circle', {
+      duration: .4,
+      y: -200, //'random(-500,500)',
+      scale: 0,
+      stagger: 0.5,
+      delay: 1 // it's better to use timeline
+      });
+    </script>
+
+    <!--Alerta cierre de sesión-->
+    <script>
+      function cerrar() {
+        Swal.fire({
+          "title":"¿Seguro que desea cerrar sesión?",
+          "icon":"warning",
+          "iconColor":"rgb(253, 61, 61)",
+          "showCancelButton":true,
+          "cancelButtonText":"No, Cancelar",
+          "confirmButtonText":"Si, Estoy seguro",
+          borderColor: 'rgba(0, 0, 0, .15)',
+          background: '#fff',
+        })
+        .then(function(result) {
+          if(result.isConfirmed) {
+            window.location.href = "/logout"
+          }
+        })
+      }
+    </script>
+
+  </header>
+
+  {% endblock %}
+
+  <main>
+  <!--Contenidos principales de las distintas ventanas-->
+  {% block contenido %}
+  {% endblock %}
+  </main>
+
+  <!--Contenido footer-->
+  {% block footer %}
+  <footer class="text-center text-lg-start bg-light text-dark">
+    <!-- Section: Social media -->
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom col-lg-12">
+      <!-- Left -->
+      <div class="me-5 d-none d-lg-block col-lg-6">
+        <br>
+        
+      </div>
+      <!-- Left -->
+
+      <!-- Right -->
+      <div class="container p-4 pb-0 col-lg-6">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+          <span class="text-center">Conéctate con nosotros en las redes sociales:</span><br><br>
+          <!-- Facebook -->
+          <a
+            class="social btn btn-primary btn-floating m-1"
+            style="background-color: #3b5998;"
+            href="#!"
+            role="button"
+            title="Faceboook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+    
+          <!-- Twitter -->
+          <a
+            class="social btn btn-primary btn-floating m-1"
+            style="background-color: #55acee;"
+            href="#!"
+            role="button"
+            title="Twitter"
+            ><i class="fab fa-twitter"></i
+          ></a>
+    
+          <!-- Google -->
+          <a
+            class="social btn btn-primary btn-floating m-1"
+            style="background-color: #dd4b39;"
+            href="#!"
+            role="button"
+            title="Gmail"
+            ><i class="fab fa-google"></i
+          ></a>
+    
+          <!-- Instagram -->
+          <a
+            class="class social btn btn-primary btn-floating m-1"
+            style="background-color: #ac2bac;"
+            href="#!"
+            role="button"
+            title="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+    
+          <!-- Linkedin -->
+          <a
+            class="social btn btn-primary btn-floating m-1 "
+            style="background-color: #0082ca;"
+            href="#!"
+            role="button"
+            title="Linkedin"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <!-- Github -->
+          <a
+            class="social box btn btn-primary btn-floating m-1"
+            style="background-color: rgb(218, 218, 40);"
+            href="#!"
+            role="button"
+            title="Snapchat"
+            ><i class="fab fa-snapchat"></i
+          ></a>
+           
+          <!--Animación footer-->
+          <script>
+            var yMove = 10;
+            gsap.to(".social", {
+            delay: 0.5,
+            duration: 1,
+            repeat: -1,
+            yoyo: true,
+            y: function(i, elem, boxes) {
+              return i % 2 === 1 ? -yMove : yMove;
+            }
+            });
+          </script>  
+        </section>
+        <!-- Section: Social media -->
+      </div>
+      
+      <!-- Right -->
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <!-- Content -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              <i class="fas fa-building"></i> Easy Renting
+            </h6>
+            <p>
+              Contamos con certificaciones del <strong>SERNATUR</strong>. 
+              El sello de calidad turítica y tambien el distintivo del turismo sustentable.
+            </p>
+            <img src="{% static '/img/sello.png' %}" alt="Sello turistico" width="100">
+            <img src="{% static '/img/sustentable.png' %}" alt="Sello turistico" width="120">
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Servicios
+            </h6>
+            <p>
+              <a href="#!" class="text-reset">Transportes</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Tours</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Cocina</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Entretención</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Información
+            </h6>
+            <p>
+              <a href="#!" class="text-reset">Turismo real</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Sernatur</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Experiencia</a>
+            </p>
+            <p>
+              <a href="/contacto" class="text-reset">Ayuda</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+            Contacto
+            </h6>
+            <p><i class="fas fa-home me-3"></i>Av. Andrés Bello 2428, Ñuñoa.</p>
+            <p>
+              <i class="fas fa-envelope me-3"></i>
+            jor.paredes1925@gmail.com
+            </p>
+            <p><i class="fas fa-phone me-3"></i>+ 569 6462 1430</p>
+            <p><i class="fas fa-print me-3"></i>+ 526 6754 8812</p>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="text-center p-4 text-light" style="background-color: black;">
+      © 2021 Copyright:
+      <a class="text-reset fw-bold" href="/">Easyrenting.cl</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  {% endblock %}
+  
+</body>
+</html>

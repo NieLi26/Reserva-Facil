@@ -1,0 +1,132 @@
+{% extends 'departamento/login.html' %}
+{% load static %}
+
+{% block titulo %} - Registro {% endblock %}
+
+{% block contenido %}
+<!--Formulario de registro de usuarios-->
+<div id="fondo">
+  <div class="row justify-content-center">
+    <div id="registro" class="col-md-6 text-center text-dark mb-2">
+      <a href="{% url 'inicio' %}">
+      <img src="{% static '/img/llave.png' %}" alt="Logo" width="100">
+      </a>
+      <h5 class="heading-section">Registrate en Reserva Fácil</h5><br>
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="fas fa-at"></i></span>
+          <input type="text" name="username" class="form-control" placeholder="Escoge un nombre de usuario" aria-label="Username" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+          <input type="text" name="first_name" class="form-control" placeholder="Escribe tu nombre" aria-label="first_name" aria-describedby="basic-addon1" maxlength="150" id="id_first_name" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+          <input type="text" name="last_name" class="form-control" placeholder="Escribe tu apellido" aria-label="last_name" aria-describedby="basic-addon1"autofocus="" required="" maxlength="150" id="id_last_name">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="far fa-envelope"></i></span>
+          <input type="email" name="email" value="ejemplo@gmail.com" class="form-control" placeholder="Escribe tu correo electrónico" aria-label="email" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>
+          <input type="number" name="telefono" required="" id="id_telefono" class="form-control" placeholder="Escribe tu telefono" aria-label="telefono" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+          <input type="password" name="password1" class="form-control input_clave" placeholder="Escribe una contraseña" aria-label="Username" aria-describedby="basic-addon1" autocomplete="new-password" required="" id="id_password1" required>
+          <span class="input-group-text" id="basic-addon1"><i class="icono fas fa-eye-slash" onclick="toggle()"></i></span>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+          <input type="password" name="password2" class="form-control input_clave2" placeholder="Repite la contraseña" aria-label="Username" aria-describedby="basic-addon1" autocomplete="new-password" required="" id="id_password2" required>
+          <span class="input-group-text" id="basic-addon1"><i class="icono2 fas fa-eye-slash" onclick="toggle2()"></i></span>
+        </div>
+        <button class="btn-color pt-2 my-3" type="reset">Limpiar <i class="fas fa-eraser"></i></button>
+        <button class="btn-color pt-2 my-3" type="submit">Registrarse <i class="fas fa-sign-in-alt"></i></button>
+        <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  /* Ocultar/mostrar contraseña password 1*/
+  var ojoState = false;
+    function toggle() {
+      var ojo = document.querySelectorAll('.icono');
+      var input = document.querySelectorAll('.input_clave');
+
+      if (ojoState) {
+        input.forEach(i => {
+          i.setAttribute('type', 'password');
+        })
+        ojo.forEach(o => {
+          o.classList.remove('fa-eye');
+          o.classList.add('fa-eye-slash');
+        })
+        ojoState = false;
+      }
+      else {
+        input.forEach(i => {
+          i.setAttribute('type', 'text');
+        })
+        ojo.forEach(o => {
+          o.classList.add('fa-eye');
+          o.classList.remove('fa-eye-slash');
+        })
+        ojoState = true;
+      }
+    }
+  
+  /* Ocultar/mostrar contraseña password 2*/
+  var ojoState = false;
+    function toggle2() {
+      var ojo = document.querySelectorAll('.icono2');
+      var input = document.querySelectorAll('.input_clave2');
+
+      if (ojoState) {
+        input.forEach(i => {
+          i.setAttribute('type', 'password');
+        })
+        ojo.forEach(o => {
+          o.classList.remove('fa-eye');
+          o.classList.add('fa-eye-slash');
+        })
+        ojoState = false;
+      }
+      else {
+        input.forEach(i => {
+          i.setAttribute('type', 'text');
+        })
+        ojo.forEach(o => {
+          o.classList.add('fa-eye');
+          o.classList.remove('fa-eye-slash');
+        })
+        ojoState = true;
+      }
+    } 
+
+            {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+
+</script>
+
+{% endblock %}

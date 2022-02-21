@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}" />
+<script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+{% block head_list %}
+
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-search"></i>
+            {{ title }}
+            <!-- {{ title }} / {{ date_now }} -->
+        </h3>
+    </div>
+    <div class="card-body">
+        <table class="table" id="data">
+            <thead>
+                {% block columns %}
+
+                {% endblock %}
+            </thead>
+            <tbody>
+                {% block rows %}
+
+                {% endblock %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        {% block buttons_list %}
+        <a href="{{ create_url }}" class="btn btn-primary btn-flat btn-test">
+            <i class="fas fa-plus"></i> Nuevo registro
+        </a>
+        <a href="{{ list_url }}" class="btn btn-success btn-flat">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(function () {
+        $('#data').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+
+        $('.btn-test').on('click', function () {
+            $.ajax({
+                url: window.location.pathname,
+                type: "POST",
+                data: {
+                    id: 2
+                },
+                dataType: "json"
+            }).done(function (data) {
+                console.log(data)
+            }).fail(function (data) {
+                // alert("error");
+                alert(textStatus = ":" + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    });
+</script>
+{% endblock %}
