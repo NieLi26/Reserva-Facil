@@ -1,0 +1,35 @@
+{% extends 'list.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head_list %}
+<script src="{% static 'recepcion/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">Nro</th>
+    <th scope="col" style="width: 15%;">Fecha de entrada</th>
+    <th scope="col" style="width: 15%;">Fecha de salida</th>
+    <th scope="col" style="width: 10%;">Subtotal</th>
+    <th scope="col" style="width: 10%;">Iva</th>
+    <th scope="col" style="width: 10%;">Avance</th>
+    <th scope="col" style="width: 10%;">Total</th>
+    <th scope="col" style="width: 10%;">Estado de reserva</th>
+    <th scope="col" style="width: 10%;">Opciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+{% block buttons_list %}
+<a href="{{ list_url }}" class="btn btn-success btn-flat">
+    <i class="fas fa-sync"></i> Actualizar
+</a>
+{% endblock %}
+
+{% block javascript %}
+
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'habitacion/tipo/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">Nro</th>
+    <th scope="col" style="width: 50%;">Nombre</th>
+    <th scope="col" style="width: 30%;">Tarifa</th>
+    <th scope="col" style="width: 10%;">Opciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+{% endblock %}

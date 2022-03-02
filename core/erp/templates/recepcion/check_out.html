@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block head %}
+
+{% block head_list %}
+
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+    <div class="card-header p-0 pt-1 navbar">
+        <ul class="navbar-nav">
+            <li class="px-3">
+                <h3 class="card-title">
+                    <i class="fas fa-concierge-bell"></i>
+                    {{ title }}
+                </h3>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-todas">
+                <div class="row">
+                    {% for reserva in reservas %}
+                    {% if reserva.habitacion.estado_habitacion == "ocupada" %}
+                    <div class="col-lg-2">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ reserva.habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ reserva.habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="{% url 'erp:pago_reserva' reserva.id %}" class="small-box-footer">
+                                {{ reserva.habitacion.estado_habitacion | upper }} <i
+                                    class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card-footer">
+
+    </div> -->
+</div>
+{% endblock %}

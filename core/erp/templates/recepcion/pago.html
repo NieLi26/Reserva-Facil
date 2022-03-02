@@ -1,0 +1,205 @@
+{% extends 'form.html' %}
+{% load static %}
+<!-- {% load widget_tweaks %} -->
+{% block head %}
+<!-- para el autocomoplete -->
+<link href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+
+<!-- buscador de datos en select(se puede usar autocomplete, y otras cosas) -->
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+<!-- para usar calendario en fechas -->
+<script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+<script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+<link href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+<!-- para aumentar o decrementar numero(+,-) -->
+<script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+<link href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" />
+
+<!-- para configuraciones de los plugins usados -->
+<script src="{% static 'payment/booking/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                {% if action == "add" %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-edit"></i>
+                {% endif %}
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="{{ action }}">
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al guardar el registro!</h5>
+                <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor%}
+                </ul>
+            </div>
+            {% endif %}
+            <!-- Detalle Reserva -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-bed"></i> Detalle de Reserva</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Numero:</label>
+                                                <p>{{booking.room.room_number}}</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Servicio:</label>
+                                                <p>{{booking.room.room_service}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Categoria:</label>
+                                                <p>{{booking.room.room_type}}</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Piso:</label>
+                                                <p>{{booking.room.floor}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-user"></i> Detalle de Huesped</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Cliente:</label>
+                                                <p>{{booking.guest}}</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nro. Documento:</label>
+                                                <p> {{booking.guest.doc_number}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Correo:</label>
+                                                <p>{{booking.guest.mail}}</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Fecha de Entrada:</label>
+                                                <p>{{booking.check_in}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-dollar-sign"></i> Costo de Hospedaje
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>total:</label>
+                                    {{ form.total }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Avance:</label>
+                                    {{ form.advance }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Restante:</label>
+                                    {{ form.resto }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Pagado:</label>
+                                    {{ form.paid_out }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Observación:</label>
+                                    {{ form.obs }}
+                                </div>
+                                    {{ form.booking }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-flat btn-test">
+                <i class="fas fa-save"></i> Guardar registro
+            </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+        </div>
+    </div>
+</form>
+<script type="application/javascript">
+        {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+
+    $("form").on("submit", function (e) {
+        e.preventDefault();
+        // let parameters = $(this).serializeArray();
+        let parameters = new FormData(this);
+        //let parameters = new FormData($("form")[0]);
+        console.log(parameters)
+        submit_with_ajax(window.location.pathname, "Notificación",
+            "¿Esta seguro de realizar la siguiente acción?", parameters,
+            function () {
+                location.href = "{{ list_url }}";
+            });
+
+    })
+</script>
+{% endblock %}

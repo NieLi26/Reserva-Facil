@@ -19,9 +19,9 @@ User = get_user_model()
 # ---------------------- CLIENTE ------------------------
 
 class Cliente(models.Model):
-    nombre= models.CharField(max_length=150, verbose_name='Nombre')
+    nombre = models.CharField(max_length=150, verbose_name='Nombre')
     rut = models.CharField(max_length=10, verbose_name="Rut")
-    direccion= models.CharField(
+    direccion = models.CharField(
         max_length=150, verbose_name='Dirección')
     telefono = models.CharField(max_length=9, verbose_name="Telefono")
     mail = models.EmailField(max_length=30, verbose_name="Correo")
@@ -61,9 +61,9 @@ class TipoPlan(models.Model):
 class Plan(models.Model):
     cliente = models.ForeignKey(
         Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
-    tipo_plan= models.ForeignKey(
+    tipo_plan = models.ForeignKey(
         TipoPlan, on_delete=models.CASCADE, verbose_name="Tipo de Plan")
-    nombre= models.CharField(max_length=150, verbose_name='Nombre')
+    nombre = models.CharField(max_length=150, verbose_name='Nombre')
     meses_contratados = models.IntegerField(
         default=0, verbose_name="Meses Contratados")
     fecha_inicio = models.DateField(
@@ -87,7 +87,8 @@ class Plan(models.Model):
 
 
 class Region(BaseModel):
-    nombre = models.CharField(max_length=150, verbose_name="Nombre", unique=True)
+    nombre = models.CharField(
+        max_length=150, verbose_name="Nombre", unique=True)
 
     def __str__(self):
         return self.nombre
@@ -118,8 +119,8 @@ class Region(BaseModel):
 
 
 class Comuna(models.Model):
-    region= models.ForeignKey(
-        Region,on_delete=models.CASCADE, verbose_name="Region")
+    region = models.ForeignKey(
+        Region, on_delete=models.CASCADE, verbose_name="Region")
     nombre = models.CharField(max_length=150, verbose_name="Nombre")
 
     def __str__(self):
@@ -136,6 +137,7 @@ class Comuna(models.Model):
 
 #---------------------- HABITACIONES( interfaz gestor ) -------------------------#
 
+
 class TipoHabitacion(models.Model):
     nombre = models.CharField(max_length=50, verbose_name="Nombre")
     tarifa = models.IntegerField(default=0, verbose_name="Tarifa")
@@ -145,8 +147,8 @@ class TipoHabitacion(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        item['nombre'] = self.name
-        item['tarifa'] = self.tariff
+        item['nombre'] = self.nombre
+        item['tarifa'] = self.tarifa
         return item
 
     class Meta:
@@ -189,17 +191,19 @@ class Piso(models.Model):
 
 
 class Habitacion(models.Model):
-    estado_habitacion = models.CharField(max_length=15, choices=estado_habitacion_choices, default="disponible", verbose_name="Estado Habitacion")
+    estado_habitacion = models.CharField(
+        max_length=15, choices=estado_habitacion_choices, default="disponible", verbose_name="Estado Habitacion")
     servicio_habitacion = models.ForeignKey(
         ServicioHabitacion, on_delete=models.CASCADE, verbose_name="Servicio de Habitacion")
     tipo_habitacion = models.ForeignKey(
         TipoHabitacion, on_delete=models.CASCADE, verbose_name="Tipo de Habitacion")
     piso = models.ForeignKey(
         Piso, on_delete=models.CASCADE, verbose_name="Piso")
-    numero_habitacion= models.CharField(
+    numero_habitacion = models.CharField(
         max_length=3, verbose_name="Numero de Habitacion")
-    capacidad = models.IntegerField(default=0, verbose_name="Capacidad") 
+    capacidad = models.IntegerField(default=0, verbose_name="Capacidad")
     desc = models.TextField(verbose_name="Descripcion")
+    activo = models.BooleanField(default=False, verbose_name="Activo")
 
     def __str__(self):
         return self.numero_habitacion
@@ -224,7 +228,7 @@ class Calification(models.Model):
     nota = models.IntegerField(default=0, verbose_name="Nota")
 
     def __str__(self):
-         pass
+        pass
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -263,11 +267,11 @@ class ImagenHabitacion(models.Model):
 
 
 class TipoHospedaje(models.Model):
-    name = models.CharField(max_length=50, verbose_name="Nombre")
+    nombre = models.CharField(max_length=50, verbose_name="Nombre")
     desc = models.TextField(verbose_name="Descripcion", null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.nombre
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -282,7 +286,7 @@ class TipoHospedaje(models.Model):
 class Hospedaje(models.Model):
     plan = models.ForeignKey(
         Plan, on_delete=models.CASCADE, verbose_name="Plan")
-    tipo_hospedaje= models.ForeignKey(
+    tipo_hospedaje = models.ForeignKey(
         TipoHospedaje, on_delete=models.CASCADE, verbose_name="Tipo de hospedaje")
     comuna = models.ForeignKey(
         Comuna, on_delete=models.CASCADE, verbose_name="Comuna")
@@ -333,13 +337,13 @@ class Gestor(models.Model):
 
 
 class Configuration(models.Model):
-  titulo = models.CharField(max_length=25, null=True)
-  color1 = models.CharField(max_length=20)
-  color2 = models.CharField(max_length=20)
-  logo = models.ImageField(upload_to="logotipos")
+    titulo = models.CharField(max_length=25, null=True)
+    color1 = models.CharField(max_length=20)
+    color2 = models.CharField(max_length=20)
+    logo = models.ImageField(upload_to="logotipos")
 
-  def __str__(self):
-        return f"Configuracion - {self.titulo}" 
+    def __str__(self):
+        return f"Configuracion - {self.titulo}"
 
 #---------------------- RESERVA -------------------------#
 
@@ -361,12 +365,13 @@ class Impuesto(models.Model):
         ordering = ["id"]
 
 
-class Reserva(models.Model):
+class Reserva(models.Model):    
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="Huesped")
     habitacion = models.ForeignKey(
         Habitacion, on_delete=models.CASCADE, verbose_name="Habitacion", null=True, blank=True)
-    estado_reserva = models.CharField(max_length=25, choices=estado_reserva_choices, default="sin confirmar", verbose_name="Estado de Reserva")
+    estado_reserva = models.CharField(
+        max_length=25, choices=estado_reserva_choices, default="sin confirmar", verbose_name="Estado de Reserva")
     subtotal = models.IntegerField(
         default=0, verbose_name="Subtotal")
     total = models.IntegerField(
@@ -382,11 +387,11 @@ class Reserva(models.Model):
     obs = models.TextField(verbose_name="Observacion", null=True, blank=True)
 
     def __str__(self):
-        pass
+        return self.user.get_search_user()
 
     def toJSON(self):
         item = model_to_dict(self)
-        item['huesped'] = self.huesped.toJSON()
+        item['user'] = self.user.toJSON()
         item['habitacion'] = self.habitacion.toJSON()
         item['iva'] = format(self.iva, '.2f')
         item['check_in'] = self.check_in.strftime('%Y-%m-%d')
@@ -452,7 +457,6 @@ class ReservaServicioExtra(models.Model):
     fecha_realizacion = models.DateField(
         default=datetime.now, verbose_name="Fecha de Realizacion")
 
-
     def __str__(self):
         pass
 
@@ -468,27 +472,24 @@ class ReservaServicioExtra(models.Model):
 #---------------------- PAGOS -------------------------#
 
 
-
-class Pagos(models.Model):
+class PagoReserva(models.Model):
     reserva = models.ForeignKey(
         Reserva, on_delete=models.CASCADE, verbose_name="Reserva")
-    reserva_servicio_extra = models.ForeignKey(
-        ReservaServicioExtra, on_delete=models.CASCADE, verbose_name="Reserva de servicio extra")
-    subtotal = models.FloatField(default=0, verbose_name="Subtotal")
-    total = models.FloatField(default=0, verbose_name="Valor total")
-    desc = models.TextField(max_length=200, verbose_name="Descripcion")
-    Pagado = models.BooleanField(default=False, verbose_name="Pagado")
+    avance = models.IntegerField(default=0, verbose_name="Adelanto")
+    total = models.IntegerField(default=0, verbose_name="Valor total")
+    resto = models.IntegerField(default=0, verbose_name="Restante")
+    obs = models.TextField(max_length=200, verbose_name="Observacion", blank=True, null=True)
+    paid_out = models.BooleanField(default=True, verbose_name="Pagado")
 
     def __str__(self):
-        pass
+        return self.reserva
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['reserva'] = self.booking.toJSON()
         return item
 
     class Meta:
-        verbose_name = "Pago"
-        verbose_name_plural = "Pagos"
+        verbose_name = "Pago Reserva"
+        verbose_name_plural = "Pagos Reserva"
         ordering = ["id"]
-
-

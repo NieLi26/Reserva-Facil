@@ -1,6 +1,5 @@
-# estado_habitacion_opciones = (
-#     ('disponible', 'Disponible'),
-#     ('ocupada', 'Ocupada'),
-#     ('limpieza', 'Limpieza'),
-#     ('mantenimiento', 'Mantenimiento'),
-# )
+tipo_documento_choices = (
+    ('DNI', 'DNI'),
+    ('Pasaporte', 'Pasaporte'),
+    ('Carnet Extranjeria', 'Carnet Extranjeria'),
+)

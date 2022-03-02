@@ -1,0 +1,232 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block head %}
+
+{% block head_list %}
+
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+    <div class="card-header p-0 pt-1 navbar">
+        <ul class="navbar-nav">
+            <li class="px-3">
+                <h3 class="card-title">
+                    <i class="fas fa-concierge-bell"></i>
+                    {{ title }}
+                </h3>
+            </li>
+        </ul>
+        <ul class="nav nav-tabs ml-auto" id="custom-tabs-two-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active text-gray-dark" data-toggle="pill" href="#custom-tabs-todas"><i
+                        class="fas fa-certificate"></i> <b>Todas</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-danger" data-toggle="pill" href="#custom-tabs-ocupado"><i
+                        class="fas fa-arrow-circle-right"></i> <b>Ocupada</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-success" data-toggle="pill" href="#custom-tabs-disponible"><i
+                        class="fas fa-arrow-circle-left"></i> <b>Disponible</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-warning" data-toggle="pill" href="#custom-tabs-mantenimiento"><i
+                        class="fas fa-spinner"></i> <b>Mantenimiento</b>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-primary" data-toggle="pill" href="#custom-tabs-limpieza"><i
+                        class="fas fa-bhabitacion"></i> <b>Limpieza</b></a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-todas">
+                <div class="row">
+                    {% for habitacion in habitaciones %}
+                    <div class="col-lg-2">
+                        <!-- small card -->
+                        {% if habitacion.estado_habitacion == "disponible" %}
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup> {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="{% url 'erp:recepcion_create' habitacion.id %}" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                        {% elif habitacion.estado_habitacion == "ocupada" %}
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="{% url 'erp:info_reserva' habitacion.id %}" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                        {% elif habitacion.estado_habitacion == "limpieza" %}
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-ocupado">
+                <div class="row">
+                    {% for habitacion in habitaciones %}
+                    {% if habitacion.estado_habitacion == "ocupada" %}
+                    <div class="col-lg-2">
+                        <!-- small card -->
+
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                               
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="{% url 'erp:info_reserva' habitacion.id %}" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-disponible">
+                <div class="row">
+                    {% for habitacion in habitaciones %}
+                    {% if habitacion.estado_habitacion == "disponible" %}
+                    <div class="col-lg-2">
+                        <!-- small card -->
+
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="{% url 'erp:recepcion_create' habitacion.id %}" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-mantenimiento">
+                <div class="row">
+                    {% for habitacion in habitaciones %}
+                    {% if habitacion.estado_habitacion == "mantenimiento" %}
+                    <div class="col-lg-2">
+                        <!-- small card -->
+
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+                                    
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-limpieza">
+                <div class="row">
+                    {% for habitacion in habitaciones %}
+                    {% if habitacion.estado_habitacion == "limpieza" %}
+                    <div class="col-lg-2">
+                        <!-- small card -->
+
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                 <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card-footer">
+
+    </div> -->
+</div>
+{% endblock %}

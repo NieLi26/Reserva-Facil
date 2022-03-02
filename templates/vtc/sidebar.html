@@ -18,7 +18,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-header">Mantenimientos</li>
                 <li class="nav-item">
-                    <a href="{% url 'erp:booking' %}" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-calendar-alt"></i>
                         <p>
                             Reserva
@@ -26,23 +26,44 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'erp:reception' %}" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-concierge-bell"></i>
                         <p>
-                            Recepción
+                            Gestión
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                </li>
+                    <ul class="nav nav-treeview ml-4 pl-2">
+                        <li class="nav-item">
+                            <a href="{% url 'erp:recepcion' %}" class="nav-link">
 
+                                <p>Recepción</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'erp:recepcion_list' %}" class="nav-link">
+
+                                <p>Listado</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'erp:check_out' %}" class="nav-link">
+
+                                <p>Salida</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- pagos -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
-                            Ventas
+                            Pagos
                         </p>
                     </a>
                 </li>
-
+                <!-- habitaciones -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-wrench"></i>
@@ -51,40 +72,40 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview ml-4 pl-2" style="display: none">
+                    <ul class="nav nav-treeview ml-4 pl-2">
 
                         <li class="nav-item">
-                            <a href="{% url 'erp:room_list' %}" class="nav-link">
-                             
+                            <a href="{% url 'erp:habitacion_list' %}" class="nav-link">
+
                                 <p>Habitaciones</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{% url 'erp:room_floor_list' %}" class="nav-link">
-                            
+                            <a href="{% url 'erp:piso_list' %}" class="nav-link">
+
                                 <p>Pisos</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{% url 'erp:room_service_list' %}" class="nav-link">
-                             
+                            <a href="{% url 'erp:servicio_habitacion_list' %}" class="nav-link">
+
                                 <p>Servicios</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{% url 'erp:room_type_list' %}" class="nav-link">
-                                
+                            <a href="{% url 'erp:tipo_habitacion_list' %}" class="nav-link">
+
                                 <p>Tipos</p>
                             </a>
                         </li>
 
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'erp:client' %}" class="nav-link">
+                <!-- <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Clientes
@@ -92,7 +113,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'erp:guest_list' %}" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Huespedes
@@ -100,13 +121,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'user:user_list' %}" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-friends"></i>
                         <p>
                             Usuarios
                         </p>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </div>

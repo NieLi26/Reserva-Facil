@@ -49,7 +49,7 @@ function submit_with_ajax(url, title, content, parameters, callback) {
           })
             .done(function (data) {
               if (!data.hasOwnProperty("error")) {
-                callback();
+                callback(data);
                 // location.href = "{{ list_url }}";
                 return false;
               }
