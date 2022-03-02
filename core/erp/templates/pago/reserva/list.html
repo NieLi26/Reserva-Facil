@@ -1,0 +1,37 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'pago/reserva/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">Nro</th>
+    <th scope="col" style="width: 20%;">Huesped</th>
+    <th scope="col" style="width: 20%;">Numero Habitacion</th>
+    <th scope="col" style="width: 10%;">Total</th>
+    <th scope="col" style="width: 10%;">Advance</th>
+    <th scope="col" style="width: 10%;">Resto</th>
+    <th scope="col" style="width: 10%;">Pagado</th>
+    <th scope="col" style="width: 10%;">Opciones</th>
+</tr>
+
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+        {% block buttons_list %}
+        <!-- <a href="{{ create_url }}" class="btn btn-primary btn-flat btn-test">
+            <i class="fas fa-plus"></i> Nuevo registro
+        </a> -->
+        <a href="{{ list_url }}" class="btn btn-success btn-flat">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+        {% endblock %}
+
+{% block javascript %}
+
+
+{% endblock %}

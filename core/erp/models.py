@@ -486,7 +486,7 @@ class PagoReserva(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        item['reserva'] = self.booking.toJSON()
+        item['reserva'] = self.reserva.toJSON()
         return item
 
     class Meta:

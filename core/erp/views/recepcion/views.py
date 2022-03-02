@@ -92,7 +92,7 @@ class PagoReservaCreateView(CreateView):
         context['reserva'] = Reserva.objects.get(id=self.kwargs['pk'])
         return context
 
-#pendiente
+
 class InfoReservaView(LoginRequiredMixin, TemplateView):
     template_name = 'recepcion/info.html'
 
@@ -165,7 +165,8 @@ class ReservaCreateView(CreateView):
                     item['text'] = i.get_search_user()
                     data.append(item)
             elif action == "create_user":
-                with transaction.atomic(): 
+                with transaction.atomic():
+                    print(request.POST)
                     frmUser = UserReservaForm(request.POST)
                     data = frmUser.save()
                     # insertamos los datos del formulario que enviamos en una varianble
@@ -246,8 +247,8 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
         context['entity'] = "Reservas"
         context['list_url'] = self.success_url
         context['action'] = "edit"
-        context['room'] = Habitacion.objects.get(id=self.object.habitacion.id)
-        context['frmGuest'] = UserReservaForm()
+        context['habitacion'] = Habitacion.objects.get(id=self.object.habitacion.id)
+        context['frmUser'] = UserReservaForm()
         return context
 
 

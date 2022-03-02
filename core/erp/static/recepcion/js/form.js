@@ -125,7 +125,7 @@ $(function () {
    $('#frmUser').trigger('reset') // ejecutamos llamamos al metodo trigger y ejecutamos el evento reset, para limpiar el formulario
  });
 
-  /* ############### SUBMIT GUEST ################*/
+  /* ############### SUBMIT USER ################*/
 
   $("#frmUser").on("submit", function (e) {
     e.preventDefault();

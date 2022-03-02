@@ -293,7 +293,7 @@ class PagoReservaForm(ModelForm):
         try:
             if form.is_valid():
                 instance = form.save()
-                reserva = Habitacion.objects.get(id=instance.reserva.id)
+                reserva = Reserva.objects.get(id=instance.reserva.id)
                 reserva.estado_reserva = "alojamiento terminado"
                 reserva.save()
                 habitacion = Habitacion.objects.filter(id=reserva.habitacion.id)

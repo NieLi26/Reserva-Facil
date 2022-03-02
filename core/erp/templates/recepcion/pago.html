@@ -22,7 +22,7 @@
 <link href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" />
 
 <!-- para configuraciones de los plugins usados -->
-<script src="{% static 'payment/booking/js/form.js' %}"></script>
+<script src="{% static 'pago/reserva/js/form.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -68,21 +68,21 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Numero:</label>
-                                                <p>{{booking.room.room_number}}</p>
+                                                <p>{{reserva.habitacion.numero_habitacion}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Servicio:</label>
-                                                <p>{{booking.room.room_service}}</p>
+                                                <p>{{reserva.habitacion.servicio_habitacion}}</p>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Categoria:</label>
-                                                <p>{{booking.room.room_type}}</p>
+                                                <p>{{reserva.habitacion.tipo_habitacion}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Piso:</label>
-                                                <p>{{booking.room.floor}}</p>
+                                                <p>{{reserva.habitacion.piso}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -101,21 +101,21 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Cliente:</label>
-                                                <p>{{booking.guest}}</p>
+                                                <p>{{reserva.user}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Nro. Documento:</label>
-                                                <p> {{booking.guest.doc_number}}</p>
+                                                <p> {{reserva.user.numero_documento}}</p>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Correo:</label>
-                                                <p>{{booking.guest.mail}}</p>
+                                                <p>{{reserva.user.email}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Fecha de Entrada:</label>
-                                                <p>{{booking.check_in}}</p>
+                                                <p>{{reserva.check_in}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Avance:</label>
-                                    {{ form.advance }}
+                                    {{ form.avance }}
                                 </div>
                                 <div class="form-group">
                                     <label>Restante:</label>
@@ -152,7 +152,7 @@
                                     <label>Observación:</label>
                                     {{ form.obs }}
                                 </div>
-                                    {{ form.booking }}
+                                    {{ form.reserva }}
                             </div>
                         </div>
                     </div>
