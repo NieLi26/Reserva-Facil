@@ -36,6 +36,7 @@ class PisoListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Listado de Pisos"
         context['entity'] = "Pisos"
+        context['icon'] = "fas fa-hotel"
         context['create_url'] = reverse_lazy('erp:piso_create')
         context['list_url'] = reverse_lazy('erp:piso_list')
         return context
@@ -68,6 +69,7 @@ class PisoCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Creacion de un piso"
         context['entity'] = "Pisos"
+        context['icon'] = "fas fa-hotel"
         context['list_url'] = reverse_lazy('erp:piso_list')
         context['action'] = "add"
         return context
@@ -101,6 +103,7 @@ class PisoUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Edicion de un Piso"
         context['entity'] = "Pisos"
+        context['icon'] = "fas fa-hotel"
         context['list_url'] = reverse_lazy('erp:piso_list')
         context['action'] = "edit"
         return context
@@ -128,5 +131,6 @@ class PisoDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Eliminacion de un Piso"
         context['entity'] = "Pisos"
+        context['icon'] = "fas fa-hotel"
         context['list_url'] = reverse_lazy('erp:piso_list')
         return context

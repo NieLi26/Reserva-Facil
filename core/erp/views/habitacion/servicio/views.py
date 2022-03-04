@@ -42,6 +42,7 @@ class ServicioHabitacionListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Listado de Servicios"
         context['entity'] = "Servicios"
+        context['icon'] = "fas fa-thumbs-up"
         context['create_url'] = reverse_lazy('erp:servicio_habitacion_create')
         context['list_url'] = reverse_lazy('erp:servicio_habitacion_list')
         return context
@@ -74,6 +75,7 @@ class ServicioHabitacionCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Creacion de un Servicio"
         context['entity'] = "Servicios"
+        context['icon'] = "fas fa-thumbs-up"
         context['list_url'] = reverse_lazy('erp:servicio_habitacion_list')
         context['action'] = "add"
         return context
@@ -107,6 +109,7 @@ class ServicioHabitacionUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Edicion de un Servicio"
         context['entity'] = "Servicios"
+        context['icon'] = "fas fa-thumbs-up"
         context['list_url'] = reverse_lazy('erp:servicio_habitacion_list')
         context['action'] = "edit"
         return context
@@ -134,5 +137,6 @@ class ServicioHabitacionDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Eliminacion de un Servicio"
         context['entity'] = "Servicios"
+        context['icon'] = "fas fa-thumbs-up"
         context['list_url'] = reverse_lazy('erp:servicio_habitacion_list')
         return context

@@ -65,7 +65,7 @@ $(function () {
         let subtotal = data.tipo_habitacion.tarifa;
         $("input[name='subtotal']").val(subtotal);
         let iva = $("input[name='iva']").val();
-        $("input[name='ivacalc']").val(subtotal * iva);
+        $("input[name='ivacalc']").val(Math.round(subtotal * iva));
         let avance = $("input[name='avance']").val();
         $("input[name='total']").val(subtotal + (subtotal * iva) - avance);
         $("select[name='habitacion']").val(data.id);

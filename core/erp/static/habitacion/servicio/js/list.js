@@ -24,7 +24,7 @@ $(function () {
         class: "text-center",
         orderable: false,
         render: function (data, type, row) {
-          return "<b style='color:red'>" + data + "</b>";
+          return data;
           // "<b style='color:red'>" + data + "</b>";
         },
       },

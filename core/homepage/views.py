@@ -11,8 +11,6 @@ from core.erp.models import Configuration, Hospedaje
 from django.core.paginator import Paginator
 from django.http import Http404
 
-from django.views.generic import RedirectView
-from django.contrib.auth import login, logout
 import config.settings as setting
 
 
@@ -39,8 +37,9 @@ def login(request):
                 # Hacemos el login manualmente
                 do_login(request, user)
                 # Y le redireccionamos a la portada
-                if user.is_superuser:
-                  return redirect(setting.LOGIN_REDIRECT_URL)
+                for group in request.user.groups.all():
+                    if  user.is_superuser or group.name == "Gestor":
+                        return redirect('erp:dashboard')
                 return redirect('inicio')
             else:
                 messages.error(request, 'Usuario o contraseña incorrectos')

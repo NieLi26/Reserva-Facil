@@ -17,4 +17,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['panel'] = "Panel de adminstrador"
+        context['entity'] = "Dashboard"
+        context['icon'] = "fas fa-chart-line"
         return context

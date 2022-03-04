@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'core.erp',
     'core.homepage',
     # 'core.login',
-    # 'core.user',
+    'core.user',
     # 'core.reports',
 ]
 
@@ -142,4 +142,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
 
-AUTH_USER_MODEL = 'homepage.User'
+AUTH_USER_MODEL = 'user.User'
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

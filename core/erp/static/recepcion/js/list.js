@@ -1,6 +1,6 @@
 var tblReserva;
 
-function format ( d ) {
+function format(d) {
   console.log(d)
   var html = "<table class='table'>";
   html += "<thead class='thead-dark'>";
@@ -13,21 +13,21 @@ function format ( d ) {
   html += "</tr>";
   html += "</thead>";
   html += "<tbody>";
-   html += "<tr>";
-   html += "<td>" + d.user.full_name + "</td>";
-   html += "<td>" + d.user.numero_documento + "</td>";
-   html += "<td>" + d.habitacion.numero_habitacion + "</td>";
-   html += "<td>" + d.habitacion.tipo_habitacion.nombre + "</td>";
-   html += "<td>" + d.habitacion.tipo_habitacion.tarifa + "</td>";
-   html += "</tr>";
+  html += "<tr>";
+  html += "<td>" + d.user.full_name + "</td>";
+  html += "<td>" + d.user.numero_documento + "</td>";
+  html += "<td>" + d.habitacion.numero_habitacion + "</td>";
+  html += "<td>" + d.habitacion.tipo_habitacion.nombre + "</td>";
+  html += "<td>" + d.habitacion.tipo_habitacion.tarifa + "</td>";
+  html += "</tr>";
   html += "</tbody>";
-  return html;    
+  return html;
 }
 
 $(function () {
 
 
- tblReserva = $("#data").DataTable({
+  tblReserva = $("#data").DataTable({
     // responsive: true,
     scrollX: true,
     autoWidth: false,
@@ -42,11 +42,11 @@ $(function () {
       dataSrc: "",
     },
     columns: [
-        {
-      "className":      'details-control',
-      "orderable":      false,
-      "data":           null,
-      "defaultContent": ''
+      {
+        "className": 'details-control',
+        "orderable": false,
+        "data": null,
+        "defaultContent": ''
       },
       { "data": "check_in" },
       { "data": "check_out" },
@@ -58,7 +58,23 @@ $(function () {
       { "data": "id" }
     ],
     columnDefs: [
-            {
+      {
+        targets: [-5],
+        class: "text-center",
+        orderable: false,
+        render: function (data, type, row) {
+          return data+"<b>%</b>" ;
+        },
+      },
+      {
+        targets: [-3,-4,-6],
+        class: "text-center",
+        orderable: false,
+        render: function (data, type, row) {
+          return "<b>$</b>" + data;
+        },
+      },
+      {
         targets: [-2],
         class: "text-center",
         orderable: false,
@@ -72,7 +88,7 @@ $(function () {
           } else {
             return '<span class="badge badge-warning">' + data.toUpperCase() + '</span> ';
           }
-          
+
         },
       },
       {
@@ -80,32 +96,32 @@ $(function () {
         class: "text-center",
         orderable: false,
         render: function (data, type, row) {
-          let buttons = '<a href="/erp/recepcion/update/'+row.id+'/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-          buttons +=  '<a href="/erp/recepcion/delete/'+row.id+'/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+          let buttons = '<a href="/erp/recepcion/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
+          buttons += '<a href="/erp/recepcion/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a> ';
           // buttons +=  '<a rel="details" class="btn btn-success btn-xs btn-flat"><i class="fas fa-search"></i></a>';
           return buttons;
         },
       },
     ],
-    initComplete: function (settings, json) {},
+    initComplete: function (settings, json) { },
     // se ejecuta al haber cargado la tabla
- 
- 
- 
+
+
+
   });
-    //MODAL
-    $("#data tbody")
-      .on("click", "td.details-control", function () {
-        var tr = $(this).closest("tr");
-        var row = tblReserva.row(tr);
-        if (row.child.isShown()) {
-          row.child.hide();
-          tr.removeClass("shown");
-        } else {
-          row.child(format(row.data())).show();
-          tr.addClass("shown");
-        }
-      });
+  //MODAL
+  $("#data tbody")
+    .on("click", "td.details-control", function () {
+      var tr = $(this).closest("tr");
+      var row = tblReserva.row(tr);
+      if (row.child.isShown()) {
+        row.child.hide();
+        tr.removeClass("shown");
+      } else {
+        row.child(format(row.data())).show();
+        tr.addClass("shown");
+      }
+    });
 
 
 });

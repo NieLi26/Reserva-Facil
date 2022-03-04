@@ -12,8 +12,8 @@ from django.db.models import Q
 from core.erp.mixin import ValidatePermissionRequiredMixin
 from core.erp.models import Reserva, Habitacion, PagoReserva
 from core.erp.forms import ReservaForm, PagoReservaForm
-from core.homepage.forms import UserForm, UserReservaForm
-from core.homepage.models import User
+from core.user.forms import UserProfileForm
+from core.user.models import User
 
 
 class RecepcionView(LoginRequiredMixin, TemplateView):
@@ -32,6 +32,7 @@ class RecepcionView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Panel de Recepcion"
         context['entity'] = "Recepcion"
+        context['icon'] = "fas fa-door-open"
         context['habitaciones'] = self.get_habitaciones()
         return context
 
@@ -52,6 +53,7 @@ class CheckOutView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Panel de Salida"
         context['entity'] = "Salida"
+        context['icon'] = "fas fa-door-closed"
         context['reservas'] = self.get_reservas()
         return context
 
@@ -87,6 +89,7 @@ class PagoReservaCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Registro pago de Reserva"
         context['entity'] = "Pago de Reservas"
+        context['icon'] = "fas fa-hand-holding-usd"
         context['list_url'] = self.success_url
         context['action'] = "add"
         context['reserva'] = Reserva.objects.get(id=self.kwargs['pk'])
@@ -132,6 +135,7 @@ class ReservaListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListV
         context = super().get_context_data(**kwargs)
         context['title'] = "Listado de Reservas"
         context['entity'] = "Reservas"
+        context['icon'] = "fas fa-book"
         context['list_url'] = reverse_lazy('erp:recepcion_list')
         context['form'] = ReservaForm()
         return context
@@ -167,7 +171,7 @@ class ReservaCreateView(CreateView):
             elif action == "create_user":
                 with transaction.atomic():
                     print(request.POST)
-                    frmUser = UserReservaForm(request.POST)
+                    frmUser = UserProfileForm(request.POST)
                     data = frmUser.save()
                     # insertamos los datos del formulario que enviamos en una varianble
                     # frmGuest = request.POST
@@ -193,10 +197,11 @@ class ReservaCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Registro de Reserva"
         context['entity'] = "Reservas"
+        context['icon'] = "fas fa-book"
         context['list_url'] = reverse_lazy('erp:recepcion')
         context['action'] = "add"
         context['habitacion'] = Habitacion.objects.get(id=self.kwargs['pk'])
-        context['frmUser'] = UserReservaForm()
+        context['frmUser'] = UserProfileForm()
         return context
 
 
@@ -231,7 +236,7 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
                     data.append(item)
             elif action == "create_user":
                 with transaction.atomic():  
-                    frmUser = UserReservaForm(request.POST)
+                    frmUser = UserProfileForm(request.POST)
                     data = frmUser.save()  
             elif action == 'complete':
                 data = Habitacion.objects.get(id=self.object.habitacion.id).toJSON()
@@ -248,7 +253,7 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
         context['list_url'] = self.success_url
         context['action'] = "edit"
         context['habitacion'] = Habitacion.objects.get(id=self.object.habitacion.id)
-        context['frmUser'] = UserReservaForm()
+        context['frmUser'] = UserProfileForm()
         return context
 
 

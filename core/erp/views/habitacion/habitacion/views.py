@@ -6,10 +6,12 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 
 from core.erp.forms import HabitacionForm
+from core.erp.mixin import ValidatePermissionRequiredMixin
 from core.erp.models import Habitacion
 
 
-class HabitacionListView(ListView):
+class HabitacionListView(ValidatePermissionRequiredMixin,ListView):
+    permission_required = ("view_habitacion", "change_habitacion", "add_habitacion", "delete_habitacion")
     model = Habitacion
     template_name = 'habitacion/habitacion/list.html'
 
@@ -37,6 +39,7 @@ class HabitacionListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Listado de Habitaciones"
         context['entity'] = "Habitaciones"
+        context['icon'] = "fas fa-bed"
         context['create_url'] = reverse_lazy('erp:habitacion_create')
         context['list_url'] = reverse_lazy('erp:habitacion_list')
         return context
@@ -69,6 +72,7 @@ class HabitacionCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Creacion de una Habitacion"
         context['entity'] = "Habitaciones"
+        context['icon'] = "fas fa-bed"
         context['list_url'] = reverse_lazy('erp:habitacion_list')
         context['action'] = "add"
         return context
@@ -102,6 +106,7 @@ class HabitacionUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Edicion de una Habitacion"
         context['entity'] = "Habitaciones"
+        context['icon'] = "fas fa-bed"
         context['list_url'] = reverse_lazy('erp:habitacion_list')
         context['action'] = "edit"
         return context
@@ -129,5 +134,6 @@ class HabitacionDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Eliminacion de una Habitacion"
         context['entity'] = "Habitaciones"
+        context['icon'] = "fas fa-bed"
         context['list_url'] = reverse_lazy('erp:habitacion_list')
         return context

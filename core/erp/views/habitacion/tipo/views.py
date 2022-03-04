@@ -36,6 +36,7 @@ class TipoHabitacionListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Listado de Tipos Habitacion"
         context['entity'] = "Tipos de Habitacion"
+        context['icon'] = "fas fa-procedures"
         context['create_url'] = reverse_lazy('erp:tipo_habitacion_create')
         context['list_url'] = reverse_lazy('erp:tipo_habitacion_list')
         return context
@@ -68,6 +69,7 @@ class TipoHabitacionCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Creacion de tipo Habitacion"
         context['entity'] = "Tipos de Habitacion"
+        context['icon'] = "fas fa-procedures"
         context['list_url'] = reverse_lazy('erp:tipo_habitacion_list')
         context['action'] = "add"
         return context
@@ -101,6 +103,7 @@ class TipoHabitacionUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Edicion de tipo Habitacion"
         context['entity'] = "Tipos de Habitacion"
+        context['icon'] = "fas fa-procedures"
         context['list_url'] = reverse_lazy('erp:tipo_habitacion_list')
         context['action'] = "edit"
         return context
@@ -128,5 +131,6 @@ class TipoHabitacionDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Eliminacion de tipo Habitacion"
         context['entity'] = "Tipos de Habitacion"
+        context['icon'] = "fas fa-procedures"
         context['list_url'] = reverse_lazy('erp:tipo_habitacion_list')
         return context

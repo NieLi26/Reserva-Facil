@@ -47,8 +47,8 @@ urlpatterns = [
     path('recepcion/update/<int:pk>/', ReservaUpdateView.as_view(), name='recepcion_update'),
     path('recepcion/delete/<int:pk>/', ReservaDeleteView.as_view(), name='recepcion_delete'),
 
-    ########################## PAYMENT BOOKING ##############################
-    # payment booking
+    ########################## PAGO RESERVA ##############################
+    # pago reserva
     path('reserva/pago/list/', PagoReservaListView.as_view(), name='pago_reserva_list'),
     # path('guest/add/', GuestCreateView.as_view(), name='guest_create'),
     path('reserva/pago/update/<int:pk>/', PagoReservaUpdateView.as_view(), name='pago_reserva_update'),

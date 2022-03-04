@@ -32,6 +32,14 @@ $(function () {
         },
       },
       {
+        targets: [-3],
+        class: "text-center",
+        orderable: false,
+        render: function (data, type, row) {
+          return "<b>$</b>" + data;
+        },
+      },
+      {
         targets: [-2],
         class: "text-center",
         orderable: false,

@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 <form action="." method="post" enctype="multipart/form-data">
-    <div class="card card-primary">
+    <div class="card">
         <div class="card-header">
             <h3 class="card-title">
                 {% if action == "add" %}
@@ -15,7 +15,7 @@
                 {% else %}
                 <i class="fas fa-edit"></i>
                 {% endif %}
-                {{ title }}
+               <strong>{{ title }}</strong>
             </h3>
         </div>
         <div class="card-body">

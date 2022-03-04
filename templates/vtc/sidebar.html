@@ -1,5 +1,5 @@
 {% load static %}
-<aside class="main-sidebar sidebar-light-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="#" class="brand-link">
         <img src="{% static 'img/logo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
@@ -36,19 +36,19 @@
                     <ul class="nav nav-treeview ml-4 pl-2">
                         <li class="nav-item">
                             <a href="{% url 'erp:recepcion' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-door-open"></i>
                                 <p>Recepción</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'erp:recepcion_list' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>Listado</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'erp:check_out' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-door-closed"></i>
                                 <p>Salida</p>
                             </a>
                         </li>
@@ -57,7 +57,7 @@
                 <!-- pagos -->
                 <li class="nav-item">
                     <a href="{% url 'erp:pago_reserva_list' %}" class="nav-link">
-                        <i class="nav-icon fas fa-dollar-sign"></i>
+                        <i class="nav-icon fas fa-hand-holding-usd"></i>
                         <p>
                             Pagos
                         </p>
@@ -76,28 +76,28 @@
 
                         <li class="nav-item">
                             <a href="{% url 'erp:habitacion_list' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-bed"></i>
                                 <p>Habitaciones</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{% url 'erp:piso_list' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-hotel"></i>
                                 <p>Pisos</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{% url 'erp:servicio_habitacion_list' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-thumbs-up"></i>
                                 <p>Servicios</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{% url 'erp:tipo_habitacion_list' %}" class="nav-link">
-
+                                <i class="nav-icon fas fa-procedures"></i>
                                 <p>Tipos</p>
                             </a>
                         </li>
@@ -119,15 +119,15 @@
                             Huespedes
                         </p>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{% url 'user:user_list' %}" class="nav-link">
                         <i class="nav-icon fas fa-user-friends"></i>
                         <p>
                             Usuarios
                         </p>
                     </a>
-                </li> -->
+                </li>
             </ul>
         </nav>
     </div>
