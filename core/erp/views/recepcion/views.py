@@ -103,6 +103,7 @@ class InfoReservaView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Panel de informacion Reserva"
         context['entity'] = "Informacion"
+        context['icon'] = "fas fa-info-circle"
         context['reserva'] = Reserva.objects.get(habitacion_id=self.kwargs['pk'])
         context['list_url'] = reverse_lazy('erp:recepcion')
         return context
@@ -211,7 +212,7 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
     template_name = "recepcion/create.html"
     success_url = reverse_lazy('erp:recepcion_list')
 
-    @method_decorator(csrf_exempt)
+    # @method_decorator(csrf_exempt)
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()

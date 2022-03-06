@@ -18,11 +18,11 @@
 {% block content %}
 <div class="card ">
     <div class="card-header">
-        <h3 class="card-title">
+        <h5>
             <i class="fas fa-search"></i>
             <strong>{{ title }}</strong>
             <!-- {{ title }} / {{ date_now }} -->
-        </h3>
+        </h5>
     </div>
     <div class="card-body">
         <table class="table" id="data">
@@ -41,7 +41,7 @@
     <div class="card-footer">
         {% block buttons_list %}
         <a href="{{ create_url }}" class="btn btn-primary btn-flat btn-test">
-            <i class="fas fa-plus"></i> Nuevo registro
+            <i class="fas fa-plus"></i> Nuevo Registro
         </a>
         <a href="{{ list_url }}" class="btn btn-success btn-flat">
             <i class="fas fa-sync"></i> Actualizar

@@ -2,7 +2,7 @@ var tblReserva;
 
 function format(d) {
   console.log(d)
-  var html = "<table class='table'>";
+  var html = "<table class='table text-center'>";
   html += "<thead class='thead-dark'>";
   html += "<tr>"
   html += "<th scope='col'>Huesped</th>";
@@ -18,9 +18,10 @@ function format(d) {
   html += "<td>" + d.user.numero_documento + "</td>";
   html += "<td>" + d.habitacion.numero_habitacion + "</td>";
   html += "<td>" + d.habitacion.tipo_habitacion.nombre + "</td>";
-  html += "<td>" + d.habitacion.tipo_habitacion.tarifa + "</td>";
+  html += "<td>" + "$" + d.habitacion.tipo_habitacion.tarifa + "</td>";
   html += "</tr>";
   html += "</tbody>";
+  html += "</table>";
   return html;
 }
 

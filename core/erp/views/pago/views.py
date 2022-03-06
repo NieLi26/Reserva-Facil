@@ -35,8 +35,9 @@ class PagoReservaListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Listado pago de Reserva"
-        context['entity'] = "Pagos Reserva"
+        context['title'] = "Listado pagos de Reserva"
+        context['entity'] = "Pagos de Reservas"
+        context['icon'] = "fas fa-hand-holding-usd"
         # context['create_url'] = reverse_lazy('erp:room_create')
         context['list_url'] = reverse_lazy('erp:pago_reserva_list')
         return context
@@ -104,6 +105,7 @@ class PagoReservaUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Edicion de una Habitacion"
         context['entity'] = "Habitaciones"
+        context['icon'] = "fas fa-hand-holding-usd"
         context['list_url'] = self.success_url
         context['action'] = "edit"
         context['reserva'] = Reserva.objects.get(id=self.object.reserva.id)
@@ -132,5 +134,6 @@ class PagoReservaDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Eliminacion de pago de una reserva"
         context['entity'] = "Pagos Reserva"
+        context['icon'] = "fas fa-hand-holding-usd"
         context['list_url'] = self.success_url
         return context

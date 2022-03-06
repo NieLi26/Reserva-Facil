@@ -1,19 +1,19 @@
 {% extends 'list.html' %}
 
 {% block content %}
-<div class="card card-primary">
+<div class="card">
     <div class="card-header">
-        <h3 class="card-title">
+        <h5>
             <i class="fas fa-search"></i>
-            {{ title }}
-        </h3>
+            <strong>{{ title }}</strong>
+        </h5>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card card-secondary">
+                <div class="card-outline card-olive">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-bed"></i> Detalle de Habitación</h3>
+                        <h3 class="card-title text-olive"><i class="fas fa-bed"></i> <b>Detalle de Habitación</b></h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -55,9 +55,9 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card card-secondary">
+                <div class="card-outline card-purple">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-user"></i> Detalle de Huesped</h3>
+                        <h3 class="card-title text-purple"><i class="fas fa-user"></i> <b>Detalle de Huesped</b></h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -96,7 +96,7 @@
     <div class="card-footer">
         {% block buttons_list %}
         <a href="{% url 'erp:recepcion_update' reserva.id %}" class="btn btn-primary btn-flat btn-test">
-            <i class="fas fa-edit"></i> Modificar registro
+            <i class="fas fa-edit"></i> Modificar Registro
         </a>
         <a href="{{ list_url }}" class="btn btn-danger btn-flat">
             <i class="fas fa-times"></i> Regresar

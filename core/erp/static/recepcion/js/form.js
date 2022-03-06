@@ -49,10 +49,10 @@ $(function () {
       // console.log($(this).val());
       calculate_reception();
     })
-    .val();
+    .val(0.19);
 
   /* ############### CALCULAR Y CARGAR DATOS ################*/
-  const calculate_reception = function () {
+  function calculate_reception() {
     $.ajax({
       url: window.location.pathname,
       type: "POST",
@@ -121,9 +121,9 @@ $(function () {
 
   /* ############### EVENT TRIGGER MODAL HIDE ################*/
 
- $("#myModalUser").on("hidden.bs.modal", function (event) {
-   $('#frmUser').trigger('reset') // ejecutamos llamamos al metodo trigger y ejecutamos el evento reset, para limpiar el formulario
- });
+  $("#myModalUser").on("hidden.bs.modal", function (event) {
+    $('#frmUser').trigger('reset') // ejecutamos llamamos al metodo trigger y ejecutamos el evento reset, para limpiar el formulario
+  });
 
   /* ############### SUBMIT USER ################*/
 

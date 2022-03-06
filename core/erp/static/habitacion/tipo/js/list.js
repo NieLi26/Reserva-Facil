@@ -20,15 +20,6 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [1],
-        class: "text-center",
-        orderable: false,
-        render: function (data, type, row) {
-          return "<b style='color:red'>" + data + "</b>";
-          // "<b style='color:red'>" + data + "</b>";
-        },
-      },
-      {
         targets: [2],
         class: "text-center",
         orderable: false,
