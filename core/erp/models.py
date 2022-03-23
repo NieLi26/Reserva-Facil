@@ -141,6 +141,7 @@ class Comuna(models.Model):
 class TipoHabitacion(models.Model):
     nombre = models.CharField(max_length=50, verbose_name="Nombre")
     tarifa = models.IntegerField(default=0, verbose_name="Tarifa")
+    imagen = models.ImageField(upload_to='habitaciones/%Y/%m/%d',blank=True)
 
     def __str__(self):
         return self.nombre
@@ -151,6 +152,10 @@ class TipoHabitacion(models.Model):
         item['tarifa'] = self.tarifa
         return item
 
+    def get_image(self):
+        if self.imagen:
+            return "{}{}".format(MEDIA_URL, self.imagen)
+        return "{}{}".format(STATIC_URL, "img/empty.png")
     class Meta:
         verbose_name = "Tipo de Habitacion"
         verbose_name_plural = "Tipos de Habitaciones"
@@ -168,8 +173,8 @@ class ServicioHabitacion(models.Model):
         return item
 
     class Meta:
-        verbose_name = "Tipo de Habitacion"
-        verbose_name_plural = "Tipos de Habitaciones"
+        verbose_name = "Servicio de Habitacion"
+        verbose_name_plural = "Servicios de Habitaciones"
         ordering = ["id"]
 
 
@@ -205,6 +210,7 @@ class Habitacion(models.Model):
     desc = models.TextField(verbose_name="Descripcion")
     activo = models.BooleanField(default=False, verbose_name="Activo")
 
+
     def __str__(self):
         return self.numero_habitacion
 
@@ -215,7 +221,7 @@ class Habitacion(models.Model):
         item["piso"] = self.piso.toJSON()
         # item["book"] = [i.toJSON() for i in self.booking_set.all()]
         return item
-
+    
     class Meta:
         verbose_name = "Habitacion"
         verbose_name_plural = "Habitaciones"
@@ -245,8 +251,8 @@ class ImagenHabitacion(models.Model):
     tipo_habitacion = models.ForeignKey(
         TipoHabitacion, on_delete=models.CASCADE, verbose_name=" Tipo de Habitacion")
 
-    def __str__(self):
-        pass
+    #def __str__(self):
+    #    pass
 
     def toJSON(self):
         item = model_to_dict(self)

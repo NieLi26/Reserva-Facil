@@ -2,37 +2,78 @@
 <div class="d-flex justify-content-center">
     <ul class="pagination">
         {% if entity.has_previous %}
-            <li class="page-item d-none d-sm-block"><a class="page-link" href="?page={{ entity.previous_page_number }}#pagtable">Anterior</a></li>
+            {% if 'tipo' in request.get_full_path %}
+                <li class="page-item d-none d-sm-block"><a class="page-link" href="{{ request.get_full_path }}&page={{ entity.previous_page_number }}#pagtable">Anterior</a></li>
+            {% else %}
+                <li class="page-item d-none d-sm-block"><a class="page-link" href="?page={{ entity.previous_page_number }}#pagtable">Anterior</a></li>
+            {% endif %}
         {% endif %}
         {% for page in paginator.page_range %}
             {% if forloop.last and page != entity.number and paginator.num_pages > 7 %} 
                 {% if entity.next_page_number != paginator.num_pages%}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ entity.number | add:1}}#pagtable">...</a>
-                </li>
+                    <!-- if 'tipo' verifica si la palabra tipo esta en la url, lo que es necesario para identificar -->
+                    <!-- si se ha usado el filtro, ya que se no se ha usado el filtro, tipo no esta en la url y se necesita -->
+                    <!-- una url diferente a la usada con el filtro para que no haya error al cambiar la pagina -->
+                    {% if 'tipo' in request.get_full_path %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ request.get_full_path }}&page={{ entity.number | add:1}}#pagtable">...</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ entity.number | add:1}}#pagtable">...</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
-            <li class="page-item">
-                    <a class="page-link" href="?page={{paginator.num_pages}}#pagtable">{{paginator.num_pages}}</a>
-            </li>
+                    {% if 'tipo' in request.get_full_path %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ request.get_full_path }}&page={{paginator.num_pages}}#pagtable">{{paginator.num_pages}}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{paginator.num_pages}}#pagtable">{{paginator.num_pages}}</a>
+                        </li>
+                    {% endif %}
+            
             {% endif %}
             {% if page == entity.number and page > 7 %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page | add:-1 }}#pagtable">...</a>
-            </li>    
+                {% if 'tipo' in request.get_full_path %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ request.get_full_path }}&page={{ page | add:-1 }}#pagtable">...</a>
+                    </li>    
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page | add:-1 }}#pagtable">...</a>
+                    </li>   
+                {% endif %}
             {% endif %}
             {% if page < 7 or page == entity.number %}
-            <li class="page-item {% if page == entity.number %}active{% endif %}">
-                <a class="page-link" href="?page={{ page }}#pagtable">{{ page }}</a>
-            </li>
+                {% if 'tipo' in request.get_full_path %}
+                    <li class="page-item {% if page == entity.number %}active{% endif %}">
+                        <a class="page-link" href="{{ request.get_full_path }}&page={{ page }}#pagtable">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item {% if page == entity.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page }}#pagtable">{{ page }}</a>
+                    </li>
+                {% endif %}
+            
             {% endif %}
         {% endfor %}
         {% if entity.has_next %}
-            <li class="page-item d-none d-sm-block">
-                <a class="page-link" href="?page={{ entity.next_page_number }}#pagtable">Siguiente</a>
-            </li>
+            {% if 'tipo' in request.get_full_path %}
+                <li class="page-item d-none d-sm-block">
+                    <a class="page-link" href="{{ request.get_full_path }}&page={{ entity.next_page_number }}#pagtable">Siguiente</a>
+                </li>
+            {% else %}
+                <li class="page-item d-none d-sm-block">
+                    <a class="page-link" href="?page={{ entity.next_page_number }}#pagtable">Siguiente</a>
+                </li>
+            {% endif %}
+            
         {% endif %}
     </ul>
 </div>
+<!--
 <div class="d-flex justify-content-center d-sm-none">            
     {% if entity.has_previous %}
         <span class="page-item"><a  class="page-link" href="?page={{ entity.previous_page_number }}#pagtable">Anterior</a></span>
@@ -43,4 +84,5 @@
     <br>
     <br>
 </div>
+-->
 {% endif %}

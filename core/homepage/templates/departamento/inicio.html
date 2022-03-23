@@ -91,65 +91,70 @@
 </style>
 <!--Barra divisora-->
 <div class="b-example-divider"></div>
-
-
-<!--Filtros de búsqueda-->
-<div class="row justify-content-center">
-  <div class="col-md-2">
-    <div class="dropdown m-2">
-      <button class="btn btn-primary dropdown-toggle m-2" type="button" data-toggle="dropdown">Tipos de hostales
-      <span class="caret"></span></button>
-      <ul class="dropdown-menu text-center">
-        <input class="form-control" id="myInput" type="text" placeholder="Buscar...">
-        <li><a href="#" class="link">Hoteles</a></li>
-        <li><a href="#" class="link">Casas</a></li>
-        <li><a href="#" class="link">Departamentos</a></li>
-        <li><a href="#" class="link">Cabañas</a></li>
-        <li><a href="#" class="link">Camping</a></li>
-      </ul>
-    </div>
-  </div>
+<br/>
+<div class="container-fluid">
+  <div class="row">
+<div class="col-12 col-md-4 col-lg-3 g-4 mx-2">
+  <h5>Filtro de Habitaciones</h5>
+  <form method="GET" id="FiltroHabitacion">
+    {% csrf_token %}
+    <div class="col-12">
+    {{filtro.form}}
+    <label for="CheckIn">Fecha de Check-In:</label>
+    <input type="date" class="form-control" id="CheckIn" name="checkin">
+    <label for="CheckIn">Fecha de Check-Out:</label>
+    <input type="date" class="form-control" id="CheckOut" name="checkout">
+    </div>    
+    <button type="submit" class="btn-color pt-2 my-3 text-center"><i class="fas fa-search"> </i> Buscar</button> 
+  </form>
+  <a href="/"><button class="btn-color pt-2 my-3 text-center"><i class="fas fa-search-minus"> </i> Remover filtro</button></a>
 </div>
-
 <br>
+<!--style="border-style: solid; border-width: 1px;"-->
 
-<!--Departamentos-->
-<div class="row row-cols-1 row-cols-md-3 g-4 mx-2" >
+<!--Habitaciones-->
+<div class="row col-12 col-md-8 g-4 mx-2">
   {% for d in entity %}
-  <div class="col">
-    <div class="card">
-      <img class="card-img-top" src="{{ d.imagen.url }}" alt="Card image cap" width="200" height="300">
-      <div class="card-body">
-        <h5 class="card-title">{{d.tipo_hospedaje}} {{d.nombre}}</h5>
-        <p class="card-text">{{d.descripcion}}</p>
-        {% if d.imagenes %}
-        <h5>Más imagenes:</h5>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-12">
-            <img id="myImg" src="{{ d.imagenes.first.imagen.url }}" alt='{{d.tipo_hospedaje}}: {{d.nombre}} <br> Dirección: {{d.direccion}}' width="100" height="50"> 
-            <img id="myImg" src="{{ d.imagenes.last.imagen.url }}" alt="{{d.nombre}} {{d.direccion}}" width="100" height="50">
+    <div id="carta{{forloop.counter}}" class="col-12 col-md-6">
+      <div class="card">
+        <img class="card-img-top" src="{{ d.tipo_habitacion.imagen.url }}" alt="Sin Imagen" width="200" height="300">
+        <div class="card-body">
+          <h5 class="card-title">Habitacion N° {{d.numero_habitacion}} - {{d.tipo_habitacion}}</h5>
+          <div class="card-text">{{d.desc}}</div>
+          <div class="card-text">Tarifa diara: ${{d.tipo_habitacion.tarifa}} + Impuestos</div>
+          <div class="card-text">Servicios: {{d.servicio_habitacion}}</div>
+          <div class="card-text">Para {{d.capacidad}} personas</div>
+          <div class="card-text">Piso: {{d.piso}}</div>
+          <div class="row justify-content-center">
+            <div class="col-6">
+              <button class="btn-color pt-2 my-3 text-center" type="submit">Reservar <i class="fas fa-sign-in-alt"></i></button>
+            </div>
           </div>
         </div>
-
-        {% endif %}
-        <div class="row justify-content-center">
-          <div class="col-lg-6">
-            <button class="btn-color pt-2 my-3 text-center" type="submit">Arrendar <i class="fas fa-sign-in-alt"></i></button>
-          </div>
-        </div>
-      </div>
+      </div><!-- Fin card -->
     </div>
-  </div>
-  {% endfor%}
+    <!---->
+    {% for f in reservas %}
+      {% if d.id == f.habitacion.id%}
+      <script>
+        $("#carta{{forloop.parentloop.counter}}").remove();
+      </script>
+      {% endif %}
+    {% endfor %}
+    
+  {% endfor %}
 </div>
-
-<br>
-
+</div>
+<!-- ^ FIn de Container-fluid-->
 <!-- Paginación -->
-<div>
+<br/>
+<div class="row">
   {% include 'departamento/paginator.html' %}
 </div>
+</div>
+
+
+<br>
 
 <!-- Imagen Modal -->
 <div id="myModal" class="modal">
@@ -157,8 +162,20 @@
   <img class="modal-content" id="img01">
   <div id="caption"></div>
 </div>
-
+  
 <script>
+  //Obtener fecha dia de hoy
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  //Establecer valores minimos para checkin y checkout
+  document.getElementById("CheckIn").min = yyyy+"-"+mm+"-"+dd;
+  document.getElementById("CheckOut").min = yyyy+"-"+mm+"-"+dd;
+  //Dar el valor por el que se buscó al campo de checkin y al de checkout
+  document.getElementById("CheckIn").value = '{{request.GET.checkin}}';
+  document.getElementById("CheckOut").value = '{{request.GET.checkout}}';
+  
   // Script Modal
   var modal = document.getElementById('myModal');
   
@@ -181,19 +198,6 @@
   }
 </script>
 
-<!--Función búsqueda filtro-->
-<script>
-  $(document).ready(function(){
-    $("#myInput").on("keyup", function() {
-      var value = $(this).val().toLowerCase();
-      $(".dropdown-menu li").filter(function() {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-      });
-    });
-  });
-  </script>
-
-<!--Código mensajes-->
 {% if messages %}
   {% for m in messages %}
     <script>
@@ -206,4 +210,24 @@
   {% endfor %}
 {% endif %}
 
+
+<!--   Codigo para cargar multiples imagenes  - Esta aca para pasar a otra plantilla
+      {% for ima in imagen %}
+        {% if d.tipo_habitacion == ima.tipo_habitacion %}
+        <img class="card-img-top" src="{{ ima.imagen.url }}" alt="Sin Imagen" width="200" height="300">
+        {% endif %}
+      {% endfor%}
+
+        {% if d.imagenes %}
+        <h5>Más imagenes:</h5>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-12">
+            <img id="myImg" src="{{ d.imagenes.first.imagen.url }}" alt='{{d.tipo_hospedaje}}: {{d.nombre}} <br> Dirección: {{d.direccion}}' width="100" height="50"> 
+            <img id="myImg" src="{{ d.imagenes.last.imagen.url }}" alt="{{d.nombre}} {{d.direccion}}" width="100" height="50">
+          </div>
+        </div>
+
+        {% endif %}
+      -->
 {% endblock %}

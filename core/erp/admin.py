@@ -5,3 +5,9 @@ from core.erp.models import *
 
 ######## INTERFAZ ADMIN ########
 admin.site.register(Reserva)
+admin.site.register(TipoHabitacion)
+admin.site.register(ServicioHabitacion)
+admin.site.register(Habitacion)
+admin.site.register(ImagenHabitacion)
+admin.site.register(Piso)
+

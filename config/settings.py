@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # 'core.login',
     'core.user',
     # 'core.reports',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

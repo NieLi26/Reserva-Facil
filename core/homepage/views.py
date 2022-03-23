@@ -7,12 +7,15 @@ from django.contrib.auth import login as do_login
 from django.contrib.auth import logout as do_logout
 from django.http import HttpResponse, response
 from django.contrib import messages
-from core.erp.models import Configuration, Hospedaje
+from core.erp.models import Configuration, Habitacion,ImagenHabitacion,Reserva
 from django.core.paginator import Paginator
 from django.http import Http404
 
 import config.settings as setting
 
+from .filters import *
+from django.db.models import Q
+from datetime import datetime
 
 # Vista principal y login.
 
@@ -109,18 +112,37 @@ def logout(request):
 
 def inicio(request):
     configuracion = Configuration.objects.last()
-    departamentos = Hospedaje.objects.all()
+    filtro = FiltroHabitacion(request.GET,queryset=Habitacion.objects.filter(activo=True).order_by('numero_habitacion'))
     page = request.GET.get('page', 1)
-
     try:
-        paginator = Paginator(departamentos, 2)
-        departamentos = paginator.page(page)
+        paginator = Paginator(filtro.qs, 6)
+        qs = paginator.get_page(page) 
     except:
         raise response.Http404
+    #Elementos Filtro Fecha
+    reservas = Reserva.objects.filter(check_in__gte=datetime.now()).order_by('habitacion__numero_habitacion')
+    checkin = request.GET.get('checkin')
+    checkout = request.GET.get('checkout')
+    if  valid_param(checkin):
+        if valid_param(checkout):
+            if(checkout >= checkin):
+                reservas = reservas.filter(Q(check_in__lte=checkin) & Q(check_out__gt=checkin) | 
+                Q(check_in__lt=checkout) & Q(check_out__gte=checkout) | 
+                Q(check_in__gt=checkin) & Q(check_out__lt=checkout))
+            else:
+                reservas = reservas.filter(Q(check_in__lte=checkin) & Q(check_out__gt=checkin))
+        else:
+            reservas = reservas.filter(Q(check_in__lte=checkin) & Q(check_out__gt=checkin))
+    else:
+        reservas=reservas.none()
+
     data = {
         'configuracion': configuracion,
-        'entity': departamentos,
+        'filtro': filtro,
+        'entity': qs,
         'paginator': paginator,
+        'reservas': reservas,
+        'checkin':checkin,
     }
     return render(request, 'departamento/inicio.html', data)
 
@@ -133,3 +155,7 @@ def nosotros(request):
         'configuracion': configuracion,
     }
     return render(request, 'departamento/nosotros.html', data)
+
+def valid_param(param):
+    return param != '' and param is not None
+
