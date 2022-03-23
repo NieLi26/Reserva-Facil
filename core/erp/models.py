@@ -150,6 +150,7 @@ class TipoHabitacion(models.Model):
         item = model_to_dict(self)
         item['nombre'] = self.nombre
         item['tarifa'] = self.tarifa
+        item["imagen"] = self.get_image()
         return item
 
     def get_image(self):
@@ -251,11 +252,12 @@ class ImagenHabitacion(models.Model):
     tipo_habitacion = models.ForeignKey(
         TipoHabitacion, on_delete=models.CASCADE, verbose_name=" Tipo de Habitacion")
 
-    #def __str__(self):
+    # def __str__(self):
     #    pass
 
     def toJSON(self):
         item = model_to_dict(self)
+        # item['tipo_habitacion'] = self.tipo_habitacion.toJSON()
         return item
 
     def get_image(self):

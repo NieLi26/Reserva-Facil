@@ -120,7 +120,7 @@ def inicio(request):
     except:
         raise response.Http404
     #Elementos Filtro Fecha
-    reservas = Reserva.objects.filter(check_in__gte=datetime.now()).order_by('habitacion__numero_habitacion')
+    reservas = Reserva.objects.filter(check_out__gte=datetime.now()).order_by('habitacion__numero_habitacion')
     checkin = request.GET.get('checkin')
     checkout = request.GET.get('checkout')
     if  valid_param(checkin):
