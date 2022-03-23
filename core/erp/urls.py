@@ -7,6 +7,7 @@ from core.erp.views.habitacion.piso.views import *
 from core.erp.views.habitacion.servicio.views import *
 from core.erp.views.habitacion.tipo.views import *
 
+from core.erp.views.calendario.views import *
 from core.erp.views.recepcion.views import *
 from core.erp.views.pago.views import *
 
@@ -15,6 +16,8 @@ app_name = "erp"
 urlpatterns = [
     # home
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    # Calendario
+    path('calendario/', CalendarioListView.as_view(), name='calendario'),
     ########################## HABITACION ##############################
     # habitacion
     path('habitacion/list/', HabitacionListView.as_view(), name='habitacion_list'),

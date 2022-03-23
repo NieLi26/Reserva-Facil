@@ -36,6 +36,7 @@ class User(AbstractUser):
         item['date_joined'] = self.date_joined.strftime("%Y-%m-%d")
         item['image'] = self.get_image()
         item['full_name'] = self.get_full_name()
+        item['search_user'] = self.get_search_user()
         item['numero_documento'] = self.numero_documento
         item['groups'] = [{"id": g.id, "name": g.name}for g in self.groups.all()]
         return item

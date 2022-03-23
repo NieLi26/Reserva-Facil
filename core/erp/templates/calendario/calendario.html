@@ -1,0 +1,109 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head %}
+<!-- full calendar -->
+<link href="{% static 'lib/fullcalendar-5.10.2/main.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/fullcalendar-5.10.2/main.js' %}"></script>
+<script src="{% static 'lib/fullcalendar-5.10.2/locales-all.js' %}"></script>
+
+<!-- para el autocomoplete -->
+<link href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+
+<!-- buscador de datos en select(se puede usar autocomplete, y otras cosas) -->
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+<!-- para usar calendario en fechas -->
+<script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+<script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+<link href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+<!-- para aumentar o decrementar numero(+,-) -->
+<script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+<link href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" />
+<!-- para configuraciones de los plugins usados -->
+<script src="{% static 'calendario/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+       <div id="calendar" class="card p-3">
+
+       </div>
+        <form action="post" id="frmReserva" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalReserva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+           <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h5 class="modal-title" id="exampleModalLabel">
+                           <b> <i class="fas fa-book"></i> Nuevo registro de Reserva</b>
+                       </h5>
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                       </button>
+                   </div>
+                   <div class="modal-body"> 
+                       {% for field in frmReserva.visible_fields %}
+                        <div class="form-group">
+                            <label for="">{{ field.label }}</label>
+                            {{ field|add_class:"form-control"|attr:"autocomplete:off" }}
+                        </div>
+                       {% endfor %}
+                   </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat"> <i class="fas fa-save"></i>
+                            Guardar Reserva</button>
+                    </div>
+               </div>
+           </div>
+       </div>
+       </form>
+{% endblock %}
+
+{% block javascript %}
+<script>
+   var calendario = document.addEventListener('DOMContentLoaded', function() {
+        var calendarUI = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarUI,{ 
+         headerToolbar: {
+             left: 'prev,next today', 
+             center: 'title',
+             right: 'dayGridMonth,timeGridWeek,listWeek'
+         },
+         locale: 'es'
+         ,
+         events: [
+             {% for reserva in object_list %}
+                {
+                    title: "{{ reserva.estado_reserva }}",
+                    start: "{{ reserva.check_in | date:'Y-m-d' }}",
+                    end: "{{ reserva.check_out | date:'Y-m-d' }}",
+                    {% if reserva.estado_reserva == "sin confirmar" %}
+                    color: "gold"
+                    {% elif reserva.estado_reserva == "no ingreso" %}
+                    color: "celestial"
+                    {% elif reserva.estado_reserva == "alojamiento terminado" %}
+                    color: "green"
+                    {% else %}
+                    color: "red"
+                    {% endif %}
+                },
+             {% endfor %}
+         ],
+         dateClick: function(info) {
+            console.log(info)
+            if (info.dateStr >= "{{datetimenow}}" ){
+                $('#myModalReserva').modal('show')
+                $('input[name="check_in"]').val(info.dateStr);
+            }
+         }
+        }); 
+        calendar.render(); 
+    })
+    
+</script>
+{% endblock %}

@@ -67,7 +67,16 @@ $(function () {
         let iva = $("input[name='iva']").val();
         $("input[name='ivacalc']").val(Math.round(subtotal * iva));
         let avance = $("input[name='avance']").val();
-        $("input[name='total']").val(subtotal + (subtotal * iva) - avance);
+        let entrada = moment($('#check_in').val())
+        let salida = moment($('#check_out').val())
+        let diferencia = salida.diff(entrada, 'days')
+        if (diferencia > 0) {
+          $("input[name='total']").val(((subtotal + (subtotal * iva)) * diferencia) - avance);
+        }else{
+          $("input[name='total']").val(subtotal + (subtotal * iva) - avance);
+        }
+
+        // $("input[name='total']").val(subtotal + (subtotal * iva) - avance);
         $("select[name='habitacion']").val(data.id);
         return false;
       }
@@ -79,7 +88,7 @@ $(function () {
 
 
   $("input[name='avance']")
-    .on("change", function () {
+    .on("change keyup", function () {
       calculate_reception();
     });
 
@@ -139,7 +148,7 @@ $(function () {
       function (response) {
         console.log(response)
         // para cargar en el select al huesped recien creado, llega la data de response(callback) y puedo llamar a la key full_name del metodo toJSON(model to dict)
-        var newOption = new Option(response.full_name, response.id, false, true);
+        var newOption = new Option(response.search_user, response.id, false, true);
         $("select[name='user']").append(newOption).trigger("change");
         $("#myModalUser").modal("hide"); // para que el modal se oculte
       }

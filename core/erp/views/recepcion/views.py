@@ -19,6 +19,23 @@ from core.user.models import User
 class RecepcionView(LoginRequiredMixin, TemplateView):
     template_name = 'recepcion/recepcion.html'
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'habitacion_libre':
+                id = request.POST['id']
+                habitacion = Habitacion.objects.get(id=id)
+                habitacion.estado_habitacion = "disponible"
+                habitacion.save()
+        except Exception as e:
+            data["error"] = str(e)
+        return JsonResponse(data)
+
     def get_habitaciones(self):
         data = []
         try:
@@ -174,17 +191,6 @@ class ReservaCreateView(CreateView):
                     print(request.POST)
                     frmUser = UserProfileForm(request.POST)
                     data = frmUser.save()
-                    # insertamos los datos del formulario que enviamos en una varianble
-                    # frmGuest = request.POST
-                    # guest = Guest()  # creamos un objecto(instancia) del modelo Guest
-                    # guest.doc_type = frmGuest['doc_type']
-                    # guest.doc_number = frmGuest['doc_number']
-                    # guest.firstname = frmGuest['firstname']
-                    # guest.lastname = frmGuest['lastname']
-                    # guest.cell = frmGuest['cell']
-                    # guest.mail = frmGuest['mail']
-                    # if frmGuest.get('active'):
-                    #     guest.active = True
                     print(data)
             elif action == 'complete':
                 data = Habitacion.objects.get(id=self.kwargs['pk']).toJSON()

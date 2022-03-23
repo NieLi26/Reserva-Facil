@@ -69,9 +69,9 @@ class UserProfileForm(ModelForm):
 
     class Meta:
         model = User
-        fields = 'first_name', 'last_name','tipo_documento','numero_documento', 'email', 'username', 'password', 'image'
+        fields = 'first_name', 'last_name','tipo_documento','numero_documento', 'email', 'username', 'password'
         exclude = ["user_permissions", "last_login",
-                   "date_joined", "is_superuser", "is_active", "is_staff", 'groups']
+                   "date_joined", "is_superuser", "is_active", "is_staff", 'groups','image']
         widgets = {
             "first_name": TextInput(attrs={
                 "placeholder": "Ingrese sus nombres"
@@ -113,6 +113,7 @@ class UserProfileForm(ModelForm):
                     if user.password != pwd:
                         u.set_password(pwd)
                 u.save()
+                data = u.toJSON()
             else:
                 data["error"] = form.errors
         except Exception as e:

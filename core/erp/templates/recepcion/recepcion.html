@@ -53,7 +53,8 @@
                         {% if habitacion.estado_habitacion == "disponible" %}
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3><sup style="font-size: 20px">Habitación</sup> {{ habitacion.numero_habitacion }}</h3>
+                                <h3><sup style="font-size: 20px">Habitación</sup> {{ habitacion.numero_habitacion }}
+                                </h3>
 
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
@@ -73,7 +74,7 @@
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
                             <a href="{% url 'erp:info_reserva' habitacion.id %}" class="small-box-footer">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
@@ -88,9 +89,9 @@
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
-                            <a href="#" class="small-box-footer">
+                            <a href="#" class="small-box-footer btnFree" rel="{{ habitacion.id }}">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
                             </a>
                         </div>
@@ -103,7 +104,7 @@
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
                             <a href="#" class="small-box-footer">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
@@ -126,11 +127,11 @@
                                 <h3><sup style="font-size: 20px">Habitación</sup>
                                     {{ habitacion.numero_habitacion }}</h3>
 
-                               
+
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
                             <a href="{% url 'erp:info_reserva' habitacion.id %}" class="small-box-footer">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
@@ -157,7 +158,7 @@
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
                             <a href="{% url 'erp:recepcion_create' habitacion.id %}" class="small-box-footer">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
@@ -180,11 +181,11 @@
                             <div class="inner">
                                 <h3><sup style="font-size: 20px">Habitación</sup>
                                     {{ habitacion.numero_habitacion }}</h3>
-                                    
+
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
                             <a href="#" class="small-box-footer">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
@@ -211,9 +212,9 @@
                                 <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
                             </div>
                             <div class="icon">
-                                 <i class="fas fa-bed"></i>
+                                <i class="fas fa-bed"></i>
                             </div>
-                            <a href="#" class="small-box-footer">
+                            <a href="#" class="small-box-footer btnFree" rel="{{ habitacion.id }}">
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
                             </a>
                         </div>
@@ -225,8 +226,34 @@
             </div>
         </div>
     </div>
-    <!-- <div class="card-footer">
+    <script>
+        let btnFree = document.querySelector('.btnFree');
+        if (btnFree) {
+            let value = btnFree.getAttribute('rel')
 
-    </div> -->
+            btnFree.addEventListener('click', function () {
+                console.log(value)
+                alert_action('Notificación', '¿Estas seguro dejar disponible esta habitación?', function () {
+                    $.ajax({
+                        url: window.location.pathname,
+                        type: "POST",
+                        data: {
+                            'action': "habitacion_libre",
+                            'id': value
+                        },
+                        dataType: "json",
+                        // processData: false, //no las usa pq no envia archivos
+                        // contentType: false,
+                    })
+                    // location.href = "{{ list_url }}";
+                    location.reload();
+                }, function () { })
+
+            })
+
+        }
+
+
+    </script>
 </div>
 {% endblock %}

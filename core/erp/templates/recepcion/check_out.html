@@ -23,7 +23,7 @@
             <div class="tab-pane fade show active" id="custom-tabs-todas">
                 <div class="row">
                     {% for reserva in reservas %}
-                    {% if reserva.habitacion.estado_habitacion == "ocupada" %}
+                    {% if reserva.habitacion.estado_habitacion == "ocupada" and not reserva.estado_reserva == "alojamiento terminado" %}
                     <div class="col-lg-2">
                         <div class="small-box bg-danger">
                             <div class="inner">
