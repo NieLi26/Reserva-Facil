@@ -19,7 +19,6 @@
             </h5>
         </div>
         <div class="card-body">
-            {% csrf_token %}
             <input type="hidden" name="action" value="{{ action }}"> 
             {% if form.errors %}
             <div class="alert alert-danger alert-dismissible">

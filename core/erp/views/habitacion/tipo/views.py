@@ -13,11 +13,6 @@ class TipoHabitacionListView(ListView):
     model = TipoHabitacion
     template_name = 'habitacion/tipo/list.html'
 
-    @method_decorator(csrf_exempt)
-    # @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -48,10 +43,6 @@ class TipoHabitacionCreateView(CreateView):
     template_name = "habitacion/tipo/create.html"
     success_url = reverse_lazy('erp:tipo_habitacion_list')
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -81,7 +72,6 @@ class TipoHabitacionUpdateView(UpdateView):
     template_name = "habitacion/tipo/create.html"
     success_url = reverse_lazy('erp:tipo_habitacion_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -114,7 +104,6 @@ class TipoHabitacionDeleteView(DeleteView):
     template_name = "habitacion/tipo/delete.html"
     success_url = reverse_lazy('erp:tipo_habitacion_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

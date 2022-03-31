@@ -11,6 +11,9 @@ $(function () {
         action: "searchdata",
       }, // parametros
       dataSrc: "",
+      headers: {
+        'X-CSRFToken': csrftoken
+    }
     },
     columns: [
       { "data": "id" },

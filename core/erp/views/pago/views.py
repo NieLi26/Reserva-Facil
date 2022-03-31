@@ -13,12 +13,6 @@ class PagoReservaListView(ListView):
     model = PagoReserva
     template_name = 'pago/reserva/list.html'
 
-
-    @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -81,7 +75,6 @@ class PagoReservaUpdateView(UpdateView):
     template_name = "recepcion/pago.html"
     success_url = reverse_lazy('erp:pago_reserva_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -117,7 +110,6 @@ class PagoReservaDeleteView(DeleteView):
     template_name = "pago/reserva/delete.html"
     success_url = reverse_lazy('erp:pago_reserva_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

@@ -1,6 +1,6 @@
 $(function () {
-  
- $("#data").DataTable({
+
+  $("#data").DataTable({
     // responsive: true,
     scrollX: true,
     autoWidth: false,
@@ -13,6 +13,9 @@ $(function () {
         "action": "searchdata",
       }, // parametros
       dataSrc: "",
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
     },
     columns: [
       { "data": "id" },
@@ -25,7 +28,7 @@ $(function () {
       { "data": "id" }
     ],
     columnDefs: [
-            {
+      {
         targets: [-2],
         class: "text-center",
         orderable: false,
@@ -42,14 +45,14 @@ $(function () {
         class: "text-center",
         orderable: false,
         render: function (data, type, row) {
-          let buttons = '<a href="/erp/reserva/pago/update/'+row.id+'/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-          buttons +=  '<a href="/erp/reserva/pago/delete/'+row.id+'/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+          let buttons = '<a href="/erp/reserva/pago/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
+          buttons += '<a href="/erp/reserva/pago/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a> ';
           // buttons +=  '<a rel="details" class="btn btn-success btn-xs btn-flat"><i class="fas fa-search"></i></a>';
           return buttons;
         },
       },
     ],
-    initComplete: function (settings, json) {},
+    initComplete: function (settings, json) { },
     // se ejecuta al haber cargado la tabla
   });
 

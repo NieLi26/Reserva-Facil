@@ -13,8 +13,9 @@ $(function () {
         action: "complete",
       },
       dataType: "json",
-      // processData: false, //no las usa pq no envia archivos
-      // contentType: false,
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
     }).done(function (data) {
       if (!data.hasOwnProperty("error")) {
         // filter(debo poner la posicion pq me trae una lista)

@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from core.homepage.views import IndexView
-# from core.login.views import *
+from django.conf.urls import handler404
+from core.erp.views.calendario.views import page_not_found404
 
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', include('core.homepage.urls')),
@@ -30,5 +31,7 @@ urlpatterns = [
     # path('reports/', include('core.reports.urls')),
     path('user/', include('core.user.urls')),
 ]
+
+handler404 = page_not_found404
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

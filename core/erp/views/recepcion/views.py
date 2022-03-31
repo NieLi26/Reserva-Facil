@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
@@ -19,16 +20,16 @@ from core.user.models import User
 class RecepcionView(LoginRequiredMixin, TemplateView):
     template_name = 'recepcion/recepcion.html'
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
-            action = request.POST['action']
+            fetch = json.loads(request.body)
+            # action = request.POST['action']
+            action = fetch['action']
+            print(action)
             if action == 'habitacion_libre':
-                id = request.POST['id']
+                # id = request.POST['id']
+                # id = fetch['id']
                 habitacion = Habitacion.objects.get(id=id)
                 habitacion.estado_habitacion = "disponible"
                 habitacion.save()
@@ -81,11 +82,6 @@ class PagoReservaCreateView(CreateView):
     template_name = "recepcion/pago.html"
     success_url = reverse_lazy('erp:check_out')
 
-    @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -130,11 +126,6 @@ class ReservaListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListV
     model = Reserva
     template_name = "recepcion/list.html"
 
-    @method_decorator(csrf_exempt)
-    # @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -165,10 +156,10 @@ class ReservaCreateView(CreateView):
     template_name = "recepcion/create.html"
     success_url = reverse_lazy('erp:recepcion')
 
-    @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # @method_decorator(login_required)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -218,8 +209,6 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
     template_name = "recepcion/create.html"
     success_url = reverse_lazy('erp:recepcion_list')
 
-    # @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -269,7 +258,6 @@ class ReservaDeleteView(DeleteView):
     template_name = "recepcion/delete.html"
     success_url = reverse_lazy('erp:recepcion_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

@@ -227,29 +227,59 @@
         </div>
     </div>
     <script>
-        let btnFree = document.querySelector('.btnFree');
+        const btnFree = Array.from(document.querySelectorAll('.btnFree'));
+        console.log(btnFree)
         if (btnFree) {
-            let value = btnFree.getAttribute('rel')
+            btnFree.forEach(res => { // ideal para recorrer array
+                res.addEventListener('click', e => {
+                    // se puede formar eventos, por ejemplo el nombre del elemento y el evento con formato de llamada de funcion, ej: button.click(), form.submit()
+                    // e.preventDefault() // sirve para que no se ejecute el metodo por defecto
+                    console.log(e.target.rel)
+                    let value = e.target.getAttribute('rel') //tarjet indica el elemento donde hemos hecho el evento, hace referencia al punto donde se origina el evento
+                    // let value = e.target.rel
+                    console.log(value)
+                    alert_action('Notificación', '¿Estas seguro dejar disponible esta habitación?', function () {
+                        //metodo 1
+                        // $.ajax({
+                        //     url: window.location.pathname,
+                        //     type: "POST",
+                        //     data: {
+                        //         'action': "habitacion_libre",
+                        //         'id': value
+                        //     },
+                        //     dataType: "json",
+                        //     // processData: false, //no las usa pq no envia archivos
+                        //     // contentType: false,
+                        // })
 
-            btnFree.addEventListener('click', function () {
-                console.log(value)
-                alert_action('Notificación', '¿Estas seguro dejar disponible esta habitación?', function () {
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: "POST",
-                        data: {
-                            'action': "habitacion_libre",
-                            'id': value
-                        },
-                        dataType: "json",
-                        // processData: false, //no las usa pq no envia archivos
-                        // contentType: false,
-                    })
-                    // location.href = "{{ list_url }}";
-                    location.reload();
-                }, function () { })
+                        //metodo 2
+                        // fetch(window.location.pathname, {
+                        //     method: 'POST',
+                        //     body: JSON.stringify({
+                        //         'action': "habitacion_libre",
+                        //         'id': value
+                        //     })
+                        // })
 
-            })
+                        //metodo 3
+                        axios({
+                            url: window.location.pathname,
+                            method: "POST",
+                            data: {
+                                'action': "habitacion_libre",
+                                'id': value
+                            },
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                            }
+                        })
+                        // location.href = "{{ list_url }}";
+
+                        location.reload();
+                    }, function () { })
+
+                })
+            });
 
         }
 

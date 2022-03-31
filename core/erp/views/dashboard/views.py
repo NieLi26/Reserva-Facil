@@ -6,10 +6,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def get(self, request, *args, **kwargs):
         request.user.get_group_session()
         return super().get(request, *args, **kwargs)

@@ -13,11 +13,6 @@ class PisoListView(ListView):
     model = Piso
     template_name = 'habitacion/piso/list.html'
 
-    @method_decorator(csrf_exempt)
-    # @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -48,10 +43,6 @@ class PisoCreateView(CreateView):
     template_name = "habitacion/piso/create.html"
     success_url = reverse_lazy('erp:piso_list')
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -81,7 +72,6 @@ class PisoUpdateView(UpdateView):
     template_name = "habitacion/piso/create.html"
     success_url = reverse_lazy('erp:room_floor_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -114,7 +104,6 @@ class PisoDeleteView(DeleteView):
     template_name = "habitacion/piso/delete.html"
     success_url = reverse_lazy('erp:room_floor_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

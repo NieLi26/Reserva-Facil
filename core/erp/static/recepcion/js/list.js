@@ -41,6 +41,9 @@ $(function () {
         action: "searchdata",
       }, // parametros
       dataSrc: "",
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
     },
     columns: [
       {
@@ -64,14 +67,26 @@ $(function () {
         class: "text-center",
         orderable: false,
         render: function (data, type, row) {
-          return data+"<b>%</b>" ;
+          return data + "<b>%</b>";
         },
       },
       {
-        targets: [-3,-4,-6],
+        targets: [-3, -6],
         class: "text-center",
         orderable: false,
         render: function (data, type, row) {
+          return "<b>$</b>" + data;
+        },
+      },
+      {
+        targets: [-4],
+        class: "text-center",
+        orderable: false,
+        render: function (data, type, row) {
+          console.log(data)
+          if(data == null) {
+            return "<b>$</b>" + 0;
+          }
           return "<b>$</b>" + data;
         },
       },

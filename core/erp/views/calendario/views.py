@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
@@ -15,10 +16,6 @@ from core.user.models import User
 class CalendarioListView(ListView):
     model = Reserva
     template_name = "calendario/calendario.html"
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -58,3 +55,8 @@ class CalendarioListView(ListView):
         context['frmReserva'] = ReservaForm()
         context['datetimenow'] = datetime.now().strftime("%Y-%m-%d")
         return context
+
+
+
+def page_not_found404(request, exception):
+    return render(request, '404.html')

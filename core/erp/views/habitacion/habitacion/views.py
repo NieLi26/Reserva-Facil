@@ -15,12 +15,6 @@ class HabitacionListView(ValidatePermissionRequiredMixin,ListView):
     model = Habitacion
     template_name = 'habitacion/habitacion/list.html'
 
-
-    @method_decorator(csrf_exempt)
-    # @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -51,10 +45,6 @@ class HabitacionCreateView(CreateView):
     template_name = "habitacion/habitacion/create.html"
     success_url = reverse_lazy('erp:habitacion_list')
 
-    # @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -84,7 +74,6 @@ class HabitacionUpdateView(UpdateView):
     template_name = "habitacion/habitacion/create.html"
     success_url = reverse_lazy('erp:habitacion_list')
 
-    # @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -117,7 +106,6 @@ class HabitacionDeleteView(DeleteView):
     template_name = "habitacion/habitacion/delete.html"
     success_url = reverse_lazy('erp:habitacion_list')
 
-    # @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
