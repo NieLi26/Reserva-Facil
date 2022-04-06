@@ -353,6 +353,13 @@ class Configuration(models.Model):
     def __str__(self):
         return f"Configuracion - {self.titulo}"
 
+
+# class Huesped(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     tipo_documento = models.CharField(max_length=25, choices=tipo_documento_choices, default="DNI", verbose_name="Tipo de Documento", blank=True, null=True)
+#     numero_documento = models.IntegerField(verbose_name="Numero de Documento", blank=True, null=True)
+#     telefono = models.IntegerField(verbose_name="telefono", blank=True, null=True)
+
 #---------------------- RESERVA -------------------------#
 
 

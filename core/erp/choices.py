@@ -14,6 +14,7 @@ estado_reserva_choices = (
 
 tipo_documento_choices = (
     ('DNI', 'DNI'),
-    ('Pasaporte', 'Pasaporte'),
-    ('Carnet Extranjeria', 'Carnet Extranjeria'),
+    ('pasaporte', 'Pasaporte'),
+    ('carnet extranjeria', 'Carnet Extranjeria'),
 )
+
