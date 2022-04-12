@@ -209,6 +209,7 @@ class Habitacion(models.Model):
         max_length=3, verbose_name="Numero de Habitacion")
     capacidad = models.IntegerField(default=0, verbose_name="Capacidad")
     desc = models.TextField(verbose_name="Descripcion")
+    obs = models.TextField(verbose_name="Observacion", null=True, blank=True)
     activo = models.BooleanField(default=False, verbose_name="Activo")
 
 
@@ -402,7 +403,7 @@ class Reserva(models.Model):
     obs = models.TextField(verbose_name="Observacion", null=True, blank=True)
 
     def __str__(self):
-        return self.user.get_search_user()
+        return str(self.user.get_search_user())
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -489,15 +490,15 @@ class ReservaServicioExtra(models.Model):
 
 class PagoReserva(models.Model):
     reserva = models.ForeignKey(
-        Reserva, on_delete=models.CASCADE, verbose_name="Reserva")
+        Reserva, on_delete=models.CASCADE, verbose_name="Reserva", related_name='reservita')
     avance = models.IntegerField(default=0, verbose_name="Adelanto")
     total = models.IntegerField(default=0, verbose_name="Valor total")
     resto = models.IntegerField(default=0, verbose_name="Restante")
     obs = models.TextField(max_length=200, verbose_name="Observacion", blank=True, null=True)
-    paid_out = models.BooleanField(default=True, verbose_name="Pagado")
+    paid_out = models.BooleanField(default=False, verbose_name="Pagado")
 
     def __str__(self):
-        return self.reserva
+        return str(self.reserva)
 
     def toJSON(self):
         item = model_to_dict(self)

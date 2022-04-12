@@ -131,15 +131,15 @@
                         <div class="card-body">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label>Total:</label>
+                                    <label>Total(CLP):</label>
                                     {{ form.total }}
                                 </div>
                                 <div class="form-group">
-                                    <label>Avance:</label>
+                                    <label>Avance(CLP):</label>
                                     {{ form.avance }}
                                 </div>
                                 <div class="form-group">
-                                    <label>Saldo por Pagar:</label>
+                                    <label>Saldo por Pagar(CLP):</label>
                                     {{ form.resto }}
                                 </div>
                                 <!-- <div class="form-group">
@@ -164,6 +164,9 @@
             <a href="{{ list_url }}" class="btn btn-danger btn-flat">
                 <i class="fas fa-times"></i> Cancelar
             </a>
+            <a href="#" class="btn btn-flat float-right" style="background-color: orange;">
+                Pago con Transbank
+           </a>
         </div>
     </div>
 </form>

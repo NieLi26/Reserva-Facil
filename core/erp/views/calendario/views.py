@@ -2,8 +2,6 @@ from datetime import date, datetime
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 from django.db.models import Q
@@ -15,6 +13,7 @@ from core.user.models import User
 
 class CalendarioListView(ListView):
     model = Reserva
+    queryset = Reserva.objects.all().exclude(estado_reserva='alojamiento terminado')
     template_name = "calendario/calendario.html"
 
     def post(self, request, *args, **kwargs):

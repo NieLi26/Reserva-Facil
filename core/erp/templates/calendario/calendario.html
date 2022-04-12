@@ -49,7 +49,11 @@
                    <div class="modal-body"> 
                        {% for field in frmReserva.visible_fields %}
                         <div class="form-group">
+                            {% if field.label == 'Subtotal' or field.label == 'Total a pagar' or field.label == 'Adelanto' %}
+                            <label for="">{{ field.label }}(CLP)</label>
+                            {% else %}
                             <label for="">{{ field.label }}</label>
+                            {% endif %}
                             {{ field|add_class:"form-control"|attr:"autocomplete:off" }}
                         </div>
                        {% endfor %}

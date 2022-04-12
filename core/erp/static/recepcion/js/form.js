@@ -1,29 +1,11 @@
 $(function () {
-  /* ############### EVENTO SELECT2 ################*/
-  // document.querySelector('.select2').select2({
-  //   theme: "bootstrap4",
-  //   language: "es",
-  // });
-  // $(".select2").select2({
-  //   theme: "bootstrap4",
-  //   language: "es",
-  // });
-
   /* ############### EVENTO CALENDARIO ################*/
-  $("#check_in").datetimepicker({
+  $("#check_in, #check_out").datetimepicker({
     format: "YYYY-MM-DD",
     // date: moment().format("YYYY-MM-DD"),
     locale: "es",
     minDate: moment().format("YYYY-MM-DD"),
   });
-
-  $("#check_out").datetimepicker({
-    format: "YYYY-MM-DD",
-    // date: moment().format("YYYY-MM-DD"),
-    locale: "es",
-    minDate: moment().format("YYYY-MM-DD"),
-    datepicker: false,
-  })
 
   const input_check_in = $("#check_in")
   input_check_in.datetimepicker("date", input_check_in.val());
@@ -94,7 +76,10 @@ $(function () {
     calculate_reception();
   })
 
-  $("#check_in").on("change.datetimepicker", () => {
+  $("#check_in").on("change.datetimepicker", (e) => {
+    element = e.target // target es para indicar especificamente la etiqueta donde hago alución
+    $("#check_out").datetimepicker('minDate', element.value); // matener fecha minima respecto ah check_in
+    
     calculate_reception();
   })
 

@@ -225,14 +225,20 @@ class ReservaForm(ModelForm):
         form = super()
         try:
             if form.is_valid():
-                # self.cleaned_data["room_status"] = "ocupada"
                 instance = form.save() # me devuelve la instancia del objeto creado( el que se guardo)
                 habitacion = Habitacion.objects.filter(id=instance.habitacion_id)
                 if instance.estado_reserva == "alojamiento terminado":
                     habitacion.update(estado_habitacion="limpieza")
                 else:
                     habitacion.update(estado_habitacion="ocupada")
-                            
+                
+                if not PagoReserva.objects.filter(reserva=instance.id):
+                    pago = PagoReserva()
+                    pago.reserva  = instance
+                    pago.avance = instance.avance
+                    pago.total = instance.total + pago.avance
+                    pago.resto =  pago.total - pago.avance
+                    pago.save()         
             else:
                 data["error"] = form.errors
         except Exception as e:
@@ -293,14 +299,18 @@ class PagoReservaForm(ModelForm):
         try:
             if form.is_valid():
                 instance = form.save()
+                pago = PagoReserva.objects.filter(id=instance.id)
+                pago.update(paid_out = True)
+                # cambiar estado de reserva
                 reserva = Reserva.objects.get(id=instance.reserva.id)
                 reserva.estado_reserva = "alojamiento terminado"
                 reserva.save()
+                #cambiar estado de habitacion
                 habitacion = Habitacion.objects.filter(id=reserva.habitacion.id)
                 if reserva.estado_reserva == "alojamiento terminado":
                     habitacion.update(estado_habitacion="limpieza")
-                else:
-                    habitacion.update(estado_habitacion="ocupada")
+
+
             else:
                 data["error"] = form.errors
         except Exception as e:

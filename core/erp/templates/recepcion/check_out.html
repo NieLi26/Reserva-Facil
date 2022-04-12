@@ -35,10 +35,12 @@
                             <div class="icon">
                                 <i class="fas fa-bed"></i>
                             </div>
-                            <a href="{% url 'erp:pago_reserva' reserva.id %}" class="small-box-footer">
+                            {% for pago in reserva.reservita.all %}
+                            <a href="{% url 'erp:pago_reserva_update' pago.id %}" class="small-box-footer">
                                 {{ reserva.habitacion.estado_habitacion | upper }} <i
                                     class="fas fa-caret-square-right"></i>
                             </a>
+                            {% endfor %}
                         </div>
                     </div>
                     {% endif %}

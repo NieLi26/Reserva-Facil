@@ -21,9 +21,9 @@ $(function () {
         // filter(debo poner la posicion pq me trae una lista)
         // $("input[name='subtotal']").val(data[0].room_type.tariff);
         // get(para traer un objecto, se debe pasar en dict)
-        $("input[name='total']").val((data.total));
+        $("input[name='total']").val((data.total + data.avance));
         $("input[name='avance']").val((data.avance));
-        $("input[name='resto']").val((data.total - data.avance));
+        $("input[name='resto']").val(((data.total + data.avance) - data.avance));
         $("select[name='reserva']").val(data.id);
         return false;
       }
