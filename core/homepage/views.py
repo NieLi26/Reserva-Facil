@@ -9,13 +9,15 @@ from django.http import HttpResponse, response
 from django.contrib import messages
 from core.erp.models import Configuration, Habitacion,ImagenHabitacion,Reserva
 from django.core.paginator import Paginator
-from django.http import Http404
+from django.views.generic import UpdateView
 
 import config.settings as setting
 
 from .filters import *
 from django.db.models import Q
 from datetime import datetime
+
+from core.homepage.models import Huesped
 
 # Vista principal y login.
 
@@ -159,3 +161,12 @@ def nosotros(request):
 def valid_param(param):
     return param != '' and param is not None
 
+class ProfileView(UpdateView):
+    model = Huesped
+    fields = '__all__'
+    template_name = 'departamento/perfil_cliente.html'
+    success_url = reverse_lazy('inicio')
+
+    def get_object(self):
+        huesped, created = Huesped.objects.get_or_create(user=self.request.user)
+        return huesped

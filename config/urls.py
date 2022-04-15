@@ -28,7 +28,6 @@ urlpatterns = [
     # path('login/', include('core.login.urls')),
     path('admin/', admin.site.urls),
     path('erp/', include('core.erp.urls')),
-    path('', include('core.crm.urls')),
     # path('reports/', include('core.reports.urls')),
     path('user/', include('core.user.urls')),
 ]

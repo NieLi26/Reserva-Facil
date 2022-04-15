@@ -78,7 +78,7 @@
               <button class="btn btn-default dropdown-toggle text-light" type="button" id="menu1" data-toggle="dropdown">{{request.user.username}}
               <span class="caret"></span></button>
               <ul class="dropdown-menu bg-dark p-2" role="menu" aria-labelledby="menu1">
-                <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="#"><i class="fas fa-portrait px-2"></i>Cuenta</a>
+                <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="{% url 'perfil_cliente' %}"><i class="fas fa-portrait px-2"></i>Perfil</a>
                 <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="{% url 'password_reset' %}"><i class="fas fa-lock px-2"></i>Contraseña</a>
              
                 <a class="navbar-brand px-2 circle" style="font-size: 18px;" href="#" onclick="cerrar()"><i class="fas fa-sign-out-alt px-2"></i>Cerrar sesión</a>

@@ -1,6 +1,9 @@
 from datetime import datetime
+from email.policy import default
 from crum import get_current_user
 from django.db import models
+
+from django.db.models.signals import post_save
 
 from django.forms import model_to_dict
 from config.settings import MEDIA_URL, STATIC_URL
@@ -229,6 +232,16 @@ class Habitacion(models.Model):
         verbose_name_plural = "Habitaciones"
         ordering = ["id"]
 
+def habitacion_save(sender, instance, **kwargs):
+    for i in instance.reserva_set.all():
+            reserva = Reserva.objects.filter(id=i.id)
+    # reserva = Reserva.objects.filter(habitacion=instance)
+    # if instance.estado_habitacion == 'ocupada' and reserva.estado_reserva == 'sin confirmar':
+    if instance.estado_habitacion == 'ocupada':
+        reserva.update(estado_reserva='confirmada')
+
+post_save.connect(habitacion_save, sender=Habitacion)
+
 
 class Calification(models.Model):
     habitacion = models.ForeignKey(
@@ -355,11 +368,6 @@ class Configuration(models.Model):
         return f"Configuracion - {self.titulo}"
 
 
-# class Huesped(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     tipo_documento = models.CharField(max_length=25, choices=tipo_documento_choices, default="DNI", verbose_name="Tipo de Documento", blank=True, null=True)
-#     numero_documento = models.IntegerField(verbose_name="Numero de Documento", blank=True, null=True)
-#     telefono = models.IntegerField(verbose_name="telefono", blank=True, null=True)
 
 #---------------------- RESERVA -------------------------#
 
@@ -418,6 +426,18 @@ class Reserva(models.Model):
         verbose_name = "Reserva"
         verbose_name_plural = "Reservas"
         ordering = ["id"]
+
+
+def reserva_save(sender, instance, **kwargs):
+    habitacion = Habitacion.objects.filter(id=instance.habitacion.id)
+    pago = PagoReserva.objects.filter(reserva=instance)
+    if instance.estado_reserva == 'cancelada':
+        habitacion.update(estado_habitacion='disponible')
+        pago.update(estado_pago='sin cancelar')
+    if instance.estado_reserva == 'no ingreso':
+        habitacion.update(estado_habitacion='disponible')
+        
+post_save.connect(reserva_save, sender=Reserva)
 
 
 class DetalleReserva(models.Model):
@@ -495,7 +515,9 @@ class PagoReserva(models.Model):
     total = models.IntegerField(default=0, verbose_name="Valor total")
     resto = models.IntegerField(default=0, verbose_name="Restante")
     obs = models.TextField(max_length=200, verbose_name="Observacion", blank=True, null=True)
-    paid_out = models.BooleanField(default=False, verbose_name="Pagado")
+    estado_pago = models.CharField(
+        max_length=25, choices=estado_pago_reserva_choices, default="pendiente", verbose_name="Estado de Pago")
+    fecha_creacion = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return str(self.reserva)

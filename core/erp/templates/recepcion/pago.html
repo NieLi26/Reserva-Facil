@@ -30,7 +30,7 @@
     <div class="card">
         <div class="card-header">
             <h5>
-                {% if action == "add" %}
+                {% if action == "edit" %}
                 <i class="fas fa-plus"></i>
                 {% else %}
                 <i class="fas fa-edit"></i>
@@ -142,15 +142,12 @@
                                     <label>Saldo por Pagar(CLP):</label>
                                     {{ form.resto }}
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label>Pagado:</label>
-                                    {{ form.paid_out }}
-                                </div> -->
                                 <div class="form-group">
                                     <label>Observación:</label>
                                     {{ form.obs }}
                                 </div>
                                     {{ form.reserva }}
+                                    {{ form.estado_pago }}
                             </div>
                         </div>
                     </div>

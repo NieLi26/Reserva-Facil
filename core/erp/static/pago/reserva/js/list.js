@@ -24,7 +24,7 @@ $(function () {
       { "data": "total" },
       { "data": "avance" },
       { "data": "resto" },
-      { "data": "paid_out" },
+      { "data": "estado_pago" },
       { "data": "id" }
     ],
     columnDefs: [
@@ -33,11 +33,14 @@ $(function () {
         class: "text-center",
         orderable: false,
         render: function (data, type, row) {
-          if (data == true) {
-            return '<span class="badge badge-success"> PAGADO </span> ';
+          if (data == "pendiente") {
+            return '<span class="badge badge-warning">' + data.toUpperCase() + '</span> ';
+          } else if (data == "cancelado") {
+            return '<span class="badge badge-success">' + data.toUpperCase() + '</span> ';
           } else {
-            return '<span class="badge badge-danger"> PENDIENTE </span> ';
+            return '<span class="badge badge-danger">' + data.toUpperCase() + '</span> ';
           }
+
         },
       },
       {

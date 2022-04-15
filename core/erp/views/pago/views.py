@@ -96,7 +96,7 @@ class PagoReservaUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Edicion de una Habitacion"
+        context['title'] = "Pago de Reserva"
         context['entity'] = "Habitaciones"
         context['icon'] = "fas fa-hand-holding-usd"
         context['list_url'] = self.success_url

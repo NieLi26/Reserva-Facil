@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block head %}
+
+{% block head_list %}
+
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+    <div class="card-header">
+        <ul class="navbar-nav">
+            <h5>
+                <i class="{{ icon }}"></i>
+                <strong>{{ title }}</strong>
+                </h3>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-todas">
+                <div class="row">
+                    {% for habitacion in habitaciones %}
+                    {% for reserva in habitacion.reserva_set.all %}
+                    {% if habitacion.estado_habitacion == "reservada" and reserva.estado_reserva == 'sin confirmar' %}
+                    <div class="col-lg-2">
+                        <!-- small card -->
+                        <div class="small-box bg-gradient-orange">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="#" class="small-box-footer btnFree" rel="{{ habitacion.id }}">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const btnFree = Array.from(document.querySelectorAll('.btnFree'));
+        console.log(btnFree)
+        if (btnFree) {
+            btnFree.forEach(res => { // ideal para recorrer array
+                res.addEventListener('click', e => {
+                    // se puede formar eventos, por ejemplo el nombre del elemento y el evento con formato de llamada de funcion, ej: button.click(), form.submit()
+                    // e.preventDefault() // sirve para que no se ejecute el metodo por defecto
+                    console.log(e.target.rel)
+                    let value = e.target.getAttribute('rel') //tarjet indica el elemento donde hemos hecho el evento, hace referencia al punto donde se origina el evento
+                    // let value = e.target.rel
+                    console.log(value)
+                    alert_action('Notificación', '¿Estas seguro dejar ocupar esta habitación?', function () {
+                        //metodo 3
+                        axios({
+                            url: window.location.pathname,
+                            method: "POST",
+                            data: {
+                                'action': "habitacion_ocupada",
+                                'id': value
+                            },
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                            }
+                        })
+                        // location.href = "{{ list_url }}";
+                        location.reload();
+                    }, function () { })
+
+                })
+            });
+
+        }
+
+
+    </script>
+</div>
+{% endblock %}

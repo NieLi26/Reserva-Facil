@@ -47,8 +47,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{% url 'erp:check_in' %}" class="nav-link">
+                                <i class="nav-icon fas fa-sign-in-alt"></i>
+                                <p>Entrada</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{% url 'erp:check_out' %}" class="nav-link">
-                                <i class="nav-icon fas fa-door-closed"></i>
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>Salida</p>
                             </a>
                         </li>
@@ -105,10 +111,10 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{% url 'erp:dashboard' %}" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
-                            CRM
+                            Dashboard
                         </p>
                     </a>
                 </li>

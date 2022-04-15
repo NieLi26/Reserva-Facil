@@ -43,6 +43,7 @@ urlpatterns = [
     # reception
     path('recepcion/', RecepcionView.as_view(), name='recepcion'),
     path('check_out/', CheckOutView.as_view(), name='check_out'),
+    path('check_in/', CheckInView.as_view(), name='check_in'),
     # path('check_out/pago/<int:pk>/', PagoReservaCreateView.as_view(), name='pago_reserva'),
     path('reserva/info/<int:pk>/', InfoReservaView.as_view(), name='info_reserva'),
     path('recepcion/list/', ReservaListView.as_view(), name='recepcion_list'),

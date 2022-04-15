@@ -95,8 +95,23 @@
                                 {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
                             </a>
                         </div>
-                        {% else %}
+                        {% elif habitacion.estado_habitacion == "mantenimiento" %}
                         <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Habitación</sup>
+                                    {{ habitacion.numero_habitacion }}</h3>
+
+                                <p>Categoria: {{ habitacion.tipo_habitacion }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                {{ habitacion.estado_habitacion | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="small-box bg-gradient-orange">
                             <div class="inner">
                                 <h3><sup style="font-size: 20px">Habitación</sup>
                                     {{ habitacion.numero_habitacion }}</h3>

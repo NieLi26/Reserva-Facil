@@ -55,6 +55,47 @@ class RecepcionView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class CheckInView(LoginRequiredMixin, TemplateView):
+    template_name = 'recepcion/check_in.html'
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            fetch = json.loads(request.body)
+            # action = request.POST['action']
+            action = fetch['action']
+            if action == 'habitacion_ocupada':
+                # id = request.POST['id']
+                id = fetch['id']
+                habitacion = Habitacion.objects.get(id=id)
+                habitacion.estado_habitacion = "ocupada"
+                habitacion.save()
+
+                # reserva = Reserva.objects.filter(habitacion=habitacion)
+                # if habitacion.estado_habitacion == 'ocupada':
+                #     reserva.update(estado_reserva='confirmada')
+        except Exception as e:
+            data["error"] = str(e)
+        return JsonResponse(data)
+
+    def get_habitaciones(self):
+        data = []
+        try:
+            for i in Habitacion.objects.all().order_by("numero_habitacion"):
+                data.append(i)
+        except:
+            pass
+        return data
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Panel de Entrada"
+        context['entity'] = "Entrada"
+        context['icon'] = "fas fa-sign-in-alt"
+        context['habitaciones'] = self.get_habitaciones()
+        return context
+
+
 class CheckOutView(LoginRequiredMixin, TemplateView):
     template_name = 'recepcion/check_out.html'
 
@@ -71,54 +112,9 @@ class CheckOutView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Panel de Salida"
         context['entity'] = "Salida"
-        context['icon'] = "fas fa-door-closed"
+        context['icon'] = "fas fa-sign-out-alt"
         context['reservas'] = self.get_reservas()
         return context
-
-##pendiente
-# class PagoReservaCreateView(CreateView):
-#     model = PagoReserva
-#     form_class = PagoReservaForm
-#     template_name = "recepcion/pago.html"
-#     success_url = reverse_lazy('erp:check_out')
-
-#     def post(self, request, *args, **kwargs):
-#         data = {}
-#         try:
-#             action = request.POST["action"]
-#             if action == 'add':
-#                 # form = self.get_form()
-#                 # data = form.save()
-
-#                 form = request.POST['reserva']
-#                 pago = PagoReserva.objects.filter(reserva_id=form)
-#                 pago.update(paid_out = True)
-#                 # cambiar estado de reserva
-#                 reserva = Reserva.objects.get(id=form)
-#                 reserva.estado_reserva = "alojamiento terminado"
-#                 reserva.save()
-#                 #cambiar estado de habitacion
-#                 habitacion = Habitacion.objects.filter(id=reserva.habitacion.id)
-#                 if reserva.estado_reserva == "alojamiento terminado":
-#                     habitacion.update(estado_habitacion="limpieza")
-
-#             elif action == 'complete':
-#                 data = Reserva.objects.get(id=self.kwargs['pk']).toJSON()
-#             else:
-#                 data["error"] = "No ha ingresado a ninguna opcion"
-#         except Exception as e:
-#             data["error"] = str(e)
-#         return JsonResponse(data)
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = "Registro pago de Reserva"
-#         context['entity'] = "Pago de Reservas"
-#         context['icon'] = "fas fa-hand-holding-usd"
-#         context['list_url'] = self.success_url
-#         context['action'] = "add"
-#         context['reserva'] = Reserva.objects.get(id=self.kwargs['pk'])
-#         return context
 
 
 class InfoReservaView(LoginRequiredMixin, TemplateView):
@@ -129,7 +125,8 @@ class InfoReservaView(LoginRequiredMixin, TemplateView):
         context['title'] = "Panel de informacion Reserva"
         context['entity'] = "Informacion"
         context['icon'] = "fas fa-info-circle"
-        context['reserva'] = Reserva.objects.get(habitacion_id=self.kwargs['pk'])
+        context['reserva'] = Reserva.objects.get(
+            habitacion_id=self.kwargs['pk'])
         context['list_url'] = reverse_lazy('erp:recepcion')
         return context
 
@@ -179,7 +176,7 @@ class ReservaCreateView(CreateView):
             action = request.POST["action"]
             if action == 'add':
                 form = self.get_form()
-                data = form.save()  
+                data = form.save()
             elif action == "search_user":
                 data = []
                 term = request.POST['term']
@@ -225,7 +222,6 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
 
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -243,11 +239,12 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
                     item['text'] = i.get_search_user()
                     data.append(item)
             elif action == "create_user":
-                with transaction.atomic():  
+                with transaction.atomic():
                     frmUser = UserProfileForm(request.POST)
-                    data = frmUser.save()  
+                    data = frmUser.save()
             elif action == 'complete':
-                data = Habitacion.objects.get(id=self.object.habitacion.id).toJSON()
+                data = Habitacion.objects.get(
+                    id=self.object.habitacion.id).toJSON()
             else:
                 data["error"] = "No ha ingresado a ninguna opcion"
         except Exception as e:
@@ -260,7 +257,8 @@ class ReservaUpdateView(ValidatePermissionRequiredMixin, UpdateView):
         context['entity'] = "Reservas"
         context['list_url'] = self.success_url
         context['action'] = "edit"
-        context['habitacion'] = Habitacion.objects.get(id=self.object.habitacion.id)
+        context['habitacion'] = Habitacion.objects.get(
+            id=self.object.habitacion.id)
         context['frmUser'] = UserProfileForm()
         return context
 
@@ -278,7 +276,8 @@ class ReservaDeleteView(DeleteView):
         data = {}
         try:
             self.object.delete()
-            habitacion = Habitacion.objects.filter(id=self.object.habitacion_id)
+            habitacion = Habitacion.objects.filter(
+                id=self.object.habitacion_id)
             habitacion.update(estado_habitacion="disponible")
         except Exception as e:
             data["error"] = str(e)

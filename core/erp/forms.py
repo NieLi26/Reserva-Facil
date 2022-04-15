@@ -227,18 +227,29 @@ class ReservaForm(ModelForm):
             if form.is_valid():
                 instance = form.save() # me devuelve la instancia del objeto creado( el que se guardo)
                 habitacion = Habitacion.objects.filter(id=instance.habitacion_id)
-                if instance.estado_reserva == "alojamiento terminado":
+                if instance.estado_reserva == "alojamiento terminado": # para cambiar cuando se modifique el registro de reserva manualmente
                     habitacion.update(estado_habitacion="limpieza")
-                else:
-                    habitacion.update(estado_habitacion="ocupada")
+                elif instance.estado_reserva == "sin confirmar":
+                    habitacion.update(estado_habitacion="reservada")
                 
-                if not PagoReserva.objects.filter(reserva=instance.id):
+                pago_reserva = PagoReserva.objects.filter(reserva=instance.id)
+                if not pago_reserva:
                     pago = PagoReserva()
                     pago.reserva  = instance
                     pago.avance = instance.avance
                     pago.total = instance.total + pago.avance
                     pago.resto =  pago.total - pago.avance
-                    pago.save()         
+                    pago.save()     
+
+                if pago_reserva:
+                     if instance.estado_reserva == "no ingreso":
+                        pago_reserva.update(estado_pago="sin cancelar") # para cambiar cuando se modifique el registro de reserva manualmente
+
+                # if pago_reserva.reserva.estado_reserva == "no ingreso":
+                    # pago_reserva.update(estado_pago="sin cancelar") # para cambiar cuando se modifique el registro de reserva manualmente
+
+                    # pago_reserva.update(estado_pago="sin cancelar")
+
             else:
                 data["error"] = form.errors
         except Exception as e:
@@ -258,6 +269,12 @@ class PagoReservaForm(ModelForm):
         }
 
         self.fields["reserva"].widget.attrs = {
+            # "style": "visibility:hidden"
+            "style": "display:none"
+
+        }
+
+        self.fields["estado_pago"].widget.attrs = {
             # "style": "visibility:hidden"
             "style": "display:none"
 
@@ -286,11 +303,6 @@ class PagoReservaForm(ModelForm):
                 "rows": 3,
                 "cols": 3
             }),
-            'paid_out': CheckboxInput(
-                attrs={
-                    'style': 'width: 5%'
-                }
-            ),
         }
 
     def save(self, commit=True):
@@ -300,7 +312,7 @@ class PagoReservaForm(ModelForm):
             if form.is_valid():
                 instance = form.save()
                 pago = PagoReserva.objects.filter(id=instance.id)
-                pago.update(paid_out = True)
+                pago.update(estado_pago='cancelado')
                 # cambiar estado de reserva
                 reserva = Reserva.objects.get(id=instance.reserva.id)
                 reserva.estado_reserva = "alojamiento terminado"

@@ -101,8 +101,10 @@ $(function () {
             return '<span class="badge badge-danger">' + data.toUpperCase() + '</span> ';
           } else if (data == "no ingreso") {
             return '<span class="badge badge-primary">' + data.toUpperCase() + '</span> ';
-          } else {
+          } else if (data == "no ingreso") {
             return '<span class="badge badge-warning">' + data.toUpperCase() + '</span> ';
+          } else {
+            return '<span class="badge badge-dark">' + data.toUpperCase() + '</span> ';
           }
 
         },

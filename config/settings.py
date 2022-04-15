@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     # Apps
     'core.erp',
     'core.homepage',
-    'core.crm',
     # 'core.login',
     'core.user',
     # 'core.reports',
@@ -126,7 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 STATICFILES_DIRS = [
@@ -137,8 +136,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 
