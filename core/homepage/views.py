@@ -1,8 +1,9 @@
+from cProfile import Profile
 from django.urls import reverse_lazy
 from .forms import AFWithEmail, UCFWithEmail
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login as do_login
 from django.contrib.auth import logout as do_logout
 from django.http import HttpResponse, response
@@ -16,6 +17,7 @@ import config.settings as setting
 from .filters import *
 from django.db.models import Q
 from datetime import datetime
+from .forms import profileModifyForm
 
 from core.homepage.models import Huesped
 
@@ -91,6 +93,7 @@ def register(request):
     # Si llegamos al final renderizamos el formulario
     return render(request, "departamento/registro.html", {'form': form})
 
+
 #Cierre de sesión para los usuarios.
 
 
@@ -163,10 +166,35 @@ def valid_param(param):
 
 class ProfileView(UpdateView):
     model = Huesped
-    fields = '__all__'
+    form_class = profileModifyForm
     template_name = 'departamento/perfil_cliente.html'
     success_url = reverse_lazy('inicio')
+    #fields = '__all__'
 
     def get_object(self):
         huesped, created = Huesped.objects.get_or_create(user=self.request.user)
         return huesped
+
+#Modificación de perfil para la reserva.
+
+def modify(request):
+    #Creamos formulario para rescatar los datos
+    usuario = get_object_or_404 (Huesped, id = request.user.id)
+    if request.method == 'POST':
+        form = profileModifyForm(request.POST, instance=usuario)
+        if form.is_valid():
+            formularioModify = form.save(commit=False)
+            formularioModify.user = User.objects.get(pk=request.user.id)
+            formularioModify.nombre = request.POST.get('nombre')
+            formularioModify.apellido = request.POST.get('apellido')
+            formularioModify.tipo_documento = request.POST.get('tipo_documento')
+            formularioModify.numero_documento = request.POST.get('numero_documento')
+            formularioModify.email = request.POST.get('email')
+            formularioModify.telefono = request.POST.get('telefono')
+            formularioModify.save()
+            return redirect ('inicio')
+    else:
+        form = profileModifyForm
+
+    return render(request, "departamento/perfil_cliente.html", {'form': form})
+

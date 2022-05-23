@@ -2,6 +2,7 @@ import imp
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django import forms
 
 User = get_user_model()
 
@@ -19,7 +20,7 @@ class Huesped(models.Model):
     numero_documento = models.IntegerField(verbose_name="Numero de Documento", blank=True, null=True)
     email = models.EmailField(verbose_name='Email', blank=True, null=True)
     telefono = models.IntegerField(verbose_name="telefono", blank=True, null=True)
-
+    
     def __str__(self):
         if self.nombre and self.apellido:
             return '%s %s' % (self.nombre, self.apellido)

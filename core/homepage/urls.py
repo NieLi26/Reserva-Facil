@@ -11,6 +11,7 @@ urlpatterns = [
     path('nosotros/', nosotros, name="nosotros"),
     path('login/', login, name="login"),
     path('register/', register, name="register"),
+    path('modify/', modify, name="profileModify"),
     path('logout/', logout),
     path('reset/password_reset', PasswordResetView.as_view(template_name='departamento/registration/password_reset_forms.html', email_template_name="departamento/registration/password_reset_email.html"), name = 'password_reset'),
     path('reset/password_reset_done', PasswordResetDoneView.as_view(template_name='departamento/registration/password_reset_done.html'), name = 'password_reset_done'),

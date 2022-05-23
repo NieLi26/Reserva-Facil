@@ -1,3 +1,9 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %} - Actualizar Perfil {% endblock %}
+
+{% block contenido %}
 {% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
@@ -18,12 +24,14 @@
     <div class="container"> <!-- Debe estar si se quiere usar row, sino se forma una scroll horizaontal abajo-->
         <!-- Ejemplos de diferentes tamaño de pantalla, mostrar distintas cantidades de columnas "row row-cols-1 row-cols-sm-2 row-cols-md-4"-->
         <div class="row row-cols-1 pt-lg-5"> <!--Nueva forma row-col, indicamos la cantidad de que columnas que habra por fila, y se pasa, se ponen abajo--> 
-            <div class="col-4 offset-4"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+            <div class="col"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
                 <div class="card">
                     <div class="card-body mx-3">
-                        <h3 class="card-title mb-5 text-center">Actualizar Perfil</h3>
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <h3 class="card-title mb-5 text-center">¡Bienvenido, {{user.get_username}}! </h3>
+                        <form action="{% url 'profileModify' %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
+                            
+                            <!--
                             {% for field in form.visible_fields %}
                             {% if field.name != 'user' %}
                             {{ field.label }}
@@ -32,10 +40,27 @@
                             {{ field.as_hidden }}
                             {% endif %}
                             {% endfor %}
+                            -->
+
+                            <div class="row "> <!--Nueva forma row-col, indicamos la cantidad de que columnas que habra por fila, y se pasa, se ponen abajo--> 
+                                <div class="col-md-6"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                                    {{ form.nombre }}
+                                    {{ form.apellido }}
+                                </div>
+                                <div class="col-md-6"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                                    {{ form.email }}
+                                    {{ form.telefono }}
+                                </div>
+                                <div class="col-md-6"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                                    {{ form.tipo_documento }}
+                                    {{ form.numero_documento }}
+                                </div>
+                            </div>
+                            
                             <br>
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-success">Actualizar</button>
+                                    <button class="btn btn-outline-success" type="submit">Actualizar</button>
                                 </div>
                                 <div class="col-6 text-end">
                                     <a href="{% url 'inicio' %}" class="btn btn-outline-danger">Volver</a>
@@ -52,3 +77,4 @@
 </body>
 
 </html>
+{% endblock %}
