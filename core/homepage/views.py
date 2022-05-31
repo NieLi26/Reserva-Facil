@@ -175,14 +175,41 @@ class ProfileView(UpdateView):
         huesped, created = Huesped.objects.get_or_create(user=self.request.user)
         return huesped
 
+#Verificación de Información
+
+def verificacionPerfil(request):
+    verif = 0
+    usuario = get_object_or_404 (Huesped, id = request.user.id)
+
+    if usuario.nombre is None:
+        verif = 0
+    else:
+        verif = 1                   
+    
+    return verif
+
 #Modificación de perfil para la reserva.
 
 def modify(request):
-    #Creamos formulario para rescatar los datos
+
     usuario = get_object_or_404 (Huesped, id = request.user.id)
     if request.method == 'POST':
+
+        #Llama función para verificar si el perfil está completo.
+        verif = verificacionPerfil(request)
+
+        #Creamos instancia del formulario para rescatar los datos.
         form = profileModifyForm(request.POST, instance=usuario)
+
+        #Diccionario de datos para sacar la información, para luego utilizarla en el template.
+        context = {
+            'form': form,
+            'verif': verif
+        }
+        
         if form.is_valid():
+
+            # Toma cada uno de los datos rescatados desde el formulario creado en la vista.
             formularioModify = form.save(commit=False)
             formularioModify.user = User.objects.get(pk=request.user.id)
             formularioModify.nombre = request.POST.get('nombre')
@@ -191,10 +218,18 @@ def modify(request):
             formularioModify.numero_documento = request.POST.get('numero_documento')
             formularioModify.email = request.POST.get('email')
             formularioModify.telefono = request.POST.get('telefono')
+
+            # Guarda los datos en la base de datos.
             formularioModify.save()
+            print(context)
             return redirect ('inicio')
+
     else:
+
         form = profileModifyForm
 
-    return render(request, "departamento/perfil_cliente.html", {'form': form})
+    
+
+    return render(request, "departamento/perfil_cliente.html", context)
+
 

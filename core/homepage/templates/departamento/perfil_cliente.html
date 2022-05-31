@@ -21,13 +21,22 @@
 </head>
 
 <body>
-    <div class="container"> <!-- Debe estar si se quiere usar row, sino se forma una scroll horizaontal abajo-->
+    <div class="container mb-5"> <!-- Debe estar si se quiere usar row, sino se forma una scroll horizaontal abajo-->
         <!-- Ejemplos de diferentes tamaño de pantalla, mostrar distintas cantidades de columnas "row row-cols-1 row-cols-sm-2 row-cols-md-4"-->
         <div class="row row-cols-1 pt-lg-5"> <!--Nueva forma row-col, indicamos la cantidad de que columnas que habra por fila, y se pasa, se ponen abajo--> 
             <div class="col"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
                 <div class="card">
                     <div class="card-body mx-3">
-                        <h3 class="card-title mb-5 text-center">¡Bienvenido, {{user.get_username}}! </h3>
+                        <h3 class="card-title mb-3 text-center">¡Bienvenido, {{user.get_username}}! </h3>
+                            {% if verif == 1 %}
+                                <div class="p-3 mb-4 bg-warning text-dark rounded"> 
+                                    Para poder reservar tu habitación, debes completar tu información personal.
+                                </div>
+                            {% else %}
+                                <div class="p-3 mb-2 bg-info text-white">
+                                    Parece que tu información está completa. Muy bien, prueba a realizar tu reserva.
+                                </div>
+                            {% endif %} 
                         <form action="{% url 'profileModify' %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             
@@ -42,17 +51,29 @@
                             {% endfor %}
                             -->
 
-                            <div class="row "> <!--Nueva forma row-col, indicamos la cantidad de que columnas que habra por fila, y se pasa, se ponen abajo--> 
-                                <div class="col-md-6"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                            <div class="row"> <!--Nueva forma row-col, indicamos la cantidad de que columnas que habra por fila, y se pasa, se ponen abajo--> 
+                                <div class="col-md-6 mb-4"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                                    <label class="mb-2">Nombre:</label>
                                     {{ form.nombre }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="mb-2">Apellido:</label>
                                     {{ form.apellido }}
                                 </div>
-                                <div class="col-md-6"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                                <div class="col-md-6 mb-4">
+                                    <label class="mb-2">Correo:</label>
                                     {{ form.email }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="mb-2">Telefono:</label>
                                     {{ form.telefono }}
                                 </div>
-                                <div class="col-md-6"> <!--si solo ponemos "col" se contara como una col de las que se indicaron arriba, y si le ponemos un numero, tomara ese espacio del total que son "12"-->
+                                <div class="col-md-6 mb-4">
+                                    <label class="mb-2">Tipo de documento:</label>
                                     {{ form.tipo_documento }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="mb-2">Numero de documento:</label>
                                     {{ form.numero_documento }}
                                 </div>
                             </div>
